@@ -38,12 +38,12 @@ const Sidebar = () => {
         </button>
         {isInventoryOpen && (
           <div className="pl-10">
-            <Link to="/inventory/medicines" className="block py-1 px-4 text-sm hover:bg-[#06b6d4]">Medicines</Link>
-            <Link to="/inventory/groups" className="block py-1 px-4 text-sm hover:bg-[#06b6d4]">Medicine Groups</Link>
+            <Link to="/Listofmedicines" className="block py-1 px-4 text-sm hover:bg-[#06b6d4]">List of Medicines</Link>
+            <Link to="/Medicinegroup" className="block py-1 px-4 text-sm hover:bg-[#06b6d4]">Medicine Groups</Link>
           </div>
         )}
 
-        <Link to="/reports" className="flex items-center py-2 px-6 text-sm hover:bg-[#06b6d4] transition-colors duration-200">
+        <Link to="/Reports" className="flex items-center py-2 px-6 text-sm hover:bg-[#06b6d4] transition-colors duration-200">
           <span className="text-gray-400 mr-2">📊</span>
           Reports
         </Link>

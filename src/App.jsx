@@ -2,7 +2,9 @@ import React from 'react';
 import Sidebar from './components/SideBar'
 import Dashboard from './components/Dashboard'
 import { BrowserRouter,Routes, Route } from 'react-router-dom'
-
+import Listofmedicines from './components/Listofmedicines';
+import Medicinegroup from './components/Medicinegroup';
+import Reports from './components/Reports';
 const App = () => {
   return (
     <div className="flex-grow p-0 ">
@@ -21,6 +23,9 @@ const App = () => {
           <Route path="/settings" element={<h1>Application Settings</h1>} />
           <Route path="/covid-19" element={<h1>Covid-19</h1>} />
           <Route path="/support" element={<h1>Get Technical Help</h1>} /> */}
+          <Route path="/Listofmedicines" element={<Listofmedicines/>} />
+          <Route path="/Medicinegroup" element={<Medicinegroup/>} />
+          <Route path="/Reports" element={<Reports/>} />
         </Route>
       </Routes>
       </BrowserRouter>
