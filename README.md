@@ -1,1 +1,36 @@
-# Drug Inventory and Supply Chain Tracking System\n\n## Installation and Running the Project\n\nFollow these steps to set up and run the project:\n\n1. **Clone the Repository**  \n   ```bash\n   git clone <repository_url>\n   cd <project_directory>\n   ```\n\n2. **Install Dependencies**  \n   Ensure you have Node.js installed, then run:  \n   ```bash\n   npm install\n   ```\n\n3. **Run the Development Server**  \n   Start the Vite development server with:  \n   ```bash\n   npm run dev\n   ```\n\n4. **Build the Project for Production**  \n   To generate a production build, use:  \n   ```bash\n   npm run build\n   ```\n\n5. **Preview the Production Build**  \n   Test the production build locally with:  \n   ```bash\n   npm run preview\n   ```\n\n6. **Access the Application**  \n   Open your browser and navigate to the development server URL displayed in your terminal (e.g., `http://localhost:3000`).\n\n---\n\nReplace `<repository_url>` and `<project_directory>` with your specific details!"
+# Drug Inventory and Supply Chain Tracking System\n\n## Installation and Running the Project
+
+Follow these steps to set up and run the project:
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/Nitin1112/Drug-inventory.git
+   cd Drug-inventory
+   ```
+
+2. **Install Dependencies**
+   Ensure you have Node.js installed, then run:
+    ```bash
+    npm install
+    ```
+
+3. **Run the Development Server**
+   Start the Vite development server with:
+   ```bash
+   npm run dev
+   ```
+
+4. **Build the Project for Production**
+   To generate a production build, use:
+   ```bash
+   npm run build
+   ```
+
+5. **Preview the Production Build**
+   Test the production build locally with:
+   ```bash
+   npm run preview
+   ```
+
+6. **Access the Application**
+   Open your browser and navigate to the development server URL displayed in your terminal (e.g., `http://localhost:3000`).
