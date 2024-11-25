@@ -1,0 +1,116 @@
+import { gst_verification_url } from "../server.config.js";
+
+export const gst_verification_template = (user) => {
+    return `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Verify GST</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f4f4f4;
+                color: #333333;
+            }
+            .email-container {
+                max-width: 600px;
+                margin: 20px auto;
+                background-color: #ffffff;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                overflow: hidden;
+                border: 1px solid #ddd;
+            }
+            .header {
+                background-color: #007BFF;
+                color: #ffffff;
+                padding: 20px;
+                text-align: center;
+            }
+            .header h1 {
+                margin: 0;
+                font-size: 22px;
+            }
+            .content {
+                padding: 20px;
+            }
+            .content p {
+                font-size: 16px;
+                line-height: 1.6;
+                margin: 10px 0;
+            }
+            .content ul {
+                list-style-type: none;
+                padding: 0;
+                margin: 15px 0;
+            }
+            .content ul li {
+                font-size: 15px;
+                margin: 5px 0;
+            }
+            .button-container {
+                text-align: center;
+                margin: 30px 0;
+            }
+            a {
+                color: #ffffff !important;
+            }
+            .button {
+                background-color: #28a745;
+                color: #ffffff;
+                text-decoration: none;
+                padding: 12px 20px;
+                border-radius: 5px;
+                font-size: 16px;
+                font-weight: bold;
+                display: inline-block;
+            }
+            .button:hover {
+                background-color: #218838;
+            }
+            .footer {
+                background-color: #f4f4f4;
+                text-align: center;
+                font-size: 13px;
+                color: #777777;
+                padding: 15px;
+            }
+            .footer p {
+                margin: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="email-container">
+            <div class="header">
+                <h1>New User Registration Request</h1>
+            </div>
+            <div class="content">
+                <p>Dear Super Admin,</p>
+                <p>A new user has submitted a registration request in the <b>Drug Inventory and Supply Chain Tracking System</b>. Please review the details below:</p>
+                <ul>
+                    <li><b>User Id:</b> ${user.id}</li>
+                    <li><b>Name:</b> ${user.name}</li>
+                    <li><b>Email:</b> ${user.email}</li>
+                    <li><b>Role:</b> ${user.role}</li>
+                    <li><b>GST Number:</b> ${user.gstNumber}</li>
+                </ul>
+                <p>Click the button below to verify the user's GST number and proceed with the registration:</p>
+                <div class="button-container">
+                    <a href="${gst_verification_url}/${user.id}/${user.gstNumber}" class="button">Verify GST</a>
+                </div>
+                <p>If you have any questions, please contact the support team.</p>
+                <p>Best Regards,<br>The Support Team</p>
+            </div>
+            <div class="footer">
+                <p>&copy; 2024 Drug Inventory and Supply Chain Tracking System. All rights reserved.</p>
+            </div>
+        </div>
+    </body>
+    </html>
+    `;
+};
