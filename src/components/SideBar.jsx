@@ -93,7 +93,7 @@ const Sidebar = () => {
         </nav>
       </div>
 
-      <div className="w-full h-screen pt-4 overflow-auto">
+      <div className="w-full h-screen p-4 overflow-auto">
         <Outlet />
       </div>
     </div>
