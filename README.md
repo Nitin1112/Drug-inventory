@@ -34,5 +34,12 @@ Follow these steps to set up and run the project:
    npm run preview
    ```
 
-6. **Access the Application**
+6. **Run the Back-end Server**
+   Start the node server with:
+   ```bash
+   cd server
+   npm run dev
+   ```
+
+7. **Access the Application**
    Open your browser and navigate to the development server URL displayed in your terminal (e.g., `http://localhost:3000`).
