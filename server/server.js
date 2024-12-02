@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import bodyParser from "body-parser";
 
 import { server_config } from "./server.config.js";
@@ -18,6 +19,9 @@ const start_server = async () => {
     // Middleware
     app.use(bodyParser.json()); // Parse JSON request bodies
     app.use(bodyParser.urlencoded({ extended: true }));
+
+    // Cros setup
+    app.use(cors());
 
     // DB connection
     await create_db_connection();

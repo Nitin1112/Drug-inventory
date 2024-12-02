@@ -7,10 +7,10 @@ const medicinesRouter = express.Router();
 medicinesRouter.post("/add", addMedicine);
 
 // Fetch all medicines and drugs
-medicinesRouter.get("/", getMedicines);
+medicinesRouter.get("/:user_id", getMedicines);
 
 // Fetch a specific medicine or drug by ID
-medicinesRouter.get("/:id", getMedicineById);
+medicinesRouter.get("/single/:userId/:medicineId", getMedicineById);
 
 // Update details of a specific medicine or drug
 medicinesRouter.put("/:id", updateMedicine);

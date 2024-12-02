@@ -37,8 +37,8 @@ const Sidebar = () => {
           </button>
           {isInventoryOpen && (
             <div className="pl-10">
-              <Link to="/Listofmedicines" className="block py-1 px-4 text-sm hover:bg-[#06b6d4]">List of Medicines</Link>
-              <Link to="/Medicinegroup" className="block py-1 px-4 text-sm hover:bg-[#06b6d4]">Medicine Groups</Link>
+              <Link to="/inventory/medicines" className="block py-1 px-4 text-sm hover:bg-[#06b6d4]">List of Medicines</Link>
+              <Link to="/inventory/groups" className="block py-1 px-4 text-sm hover:bg-[#06b6d4]">Medicine Groups</Link>
             </div>
           )}
 

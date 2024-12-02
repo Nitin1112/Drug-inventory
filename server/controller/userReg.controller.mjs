@@ -4,6 +4,7 @@ import { sendNotificationToAdmin, sendMailToAdmin, sendMail } from "../utils/not
 import { admin_mails } from "../server.config.js";
 import { gst_verification_template } from "../templates/gstVerification.template.mjs";
 import { account_under_verification_template } from "../templates/accountUnderVerification.template.mjs";
+import Inventory from "../models/inventory.model.mjs";
 
 export const registerUser = async (req, res) => {
     try {
@@ -94,9 +95,20 @@ export const resetPassword = async (req, res) => {
         if (!find_user) {
             return res.status(404).json({ error: 'User not found' });
         }
+        const found_inventory = await Inventory.findOne({ owner: token });
 
-        find_user.password = newPassword;
-        find_user.isPasswordReset = true;
+        if (!found_inventory) {
+            const inventoryData = {
+                owner: find_user._id,
+                items: [],
+            };
+            const userInventory = Inventory(inventoryData);
+
+            find_user.password = newPassword;
+            find_user.isPasswordReset = true;
+            await userInventory.save();
+        }
+
         await find_user.save();
 
         return res.status(200).json({ message: 'password reset successful' });

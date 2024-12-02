@@ -1,172 +1,335 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { fetch_all_medicine, fetch_groups_available } from '../controllers/medicines.mjs';
+import { useNavigate } from 'react-router-dom';
+
+import { addMedicineToInventory, fetchInventoryItems, inventoryUpdateStock } from '../controllers/inventory.mjs';
+import CustomInput from './common/CustomInput';
 
 const Listofmedicines = () => {
+  // Common states
+  const [loading, setLoading] = useState(true);
+  const [groupsAvailable, setGroupsAvailable] = useState([]);
+
+  // Inventory specific states
+  const [searchInventory, setSearchInventory] = useState('');
+  const [inventoryMedicines, setInventoryMedicines] = useState([]);
+  const [selectedGroupInventory, setSelectedGroupInventory] = useState("");
+
+  // Available medicines specific states
   const [search, setSearch] = useState('');
-  const [medicines, setMedicines] = useState([
-    // { name: 'Augmentin 625 Duo Tablet', id: 'D06ID232435454', group: 'Generic Medicine', stock: 350 },
-    // { name: 'Azithral 500 Tablet', id: 'D06ID232435451', group: 'Generic Medicine', stock: 20 },
-    // { name: 'Ascoril LS Syrup', id: 'D06ID232435452', group: 'Diabetes', stock: 85 },
-    // { name: 'Azee 500 Tablet', id: 'D06ID232435450', group: 'Generic Medicine', stock: 75 },
-  ]);
+  const [medicines, setMedicines] = useState([]);
+  const [selectedGroup, setSelectedGroup] = useState("");
 
-  const [newMedicine, setNewMedicine] = useState({
-    name: '',
-    id: '',
-    group: '',
-    stock: ''
-  });
+  // add stock popup state
+  const [addStockState, setAddStockState] = useState(false);
+  const [stock, setStock] = useState(1);
+  const [stockIndex, setStockIndex] = useState(0);
+  const [updateStockState, setUpdateStockState] = useState(false);
+  const [updateStockId, setUpdateStockId] = useState(false);
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [editingIndex, setEditingIndex] = useState(null);
 
-  // Handle form input changes
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewMedicine({
-      ...newMedicine,
-      [name]: value
-    });
-  };
+  const navigator = useNavigate();
 
-  // Add new medicine to the list
-  const addMedicine = () => {
-    if (isEditing) {
-      // Update the existing medicine
-      const updatedMedicines = medicines.map((medicine, index) =>
-        index === editingIndex ? newMedicine : medicine
-      );
-      setMedicines(updatedMedicines);
-      setIsEditing(false);
-      setEditingIndex(null);
-    } else {
-      // Add new medicine
-      setMedicines([...medicines, newMedicine]);
+  // Adding stocks to the inventory
+  const addToInventory = async (index) => {
+    setAddStockState(true);
+    setStockIndex(index);
+  }
+
+  // For navigating to the detailed medicine view
+  const handleMedicineNavigate = (id) => {
+    console.log(id);
+    navigator(`${id}`);
+  }
+
+  // Adding stock to inventory
+  const updateStock = async (e) => {
+    e.preventDefault();
+    if (updateStockState) {
+      for (let med in inventoryMedicines) {
+        console.log(inventoryMedicines[med]);
+        if (inventoryMedicines[med]._id == updateStockId) {
+          addMedicineToInventory(updateStockId, stock);
+          setInventoryMedicines((priInventoryData) => {
+            for (let i in priInventoryData) {
+              if (priInventoryData[i]._id == updateStockId) {
+                priInventoryData[i].stock = stock;
+              }
+            }
+            return priInventoryData;
+          });
+          setUpdateStockState(false);
+          setAddStockState(false);
+          alert("Stock updated successfully");
+          return;
+        }
+      }
+      alert("Stock cannot be updated");
+      return;
     }
-    setNewMedicine({ name: '', id: '', group: '', stock: '' }); // Clear form
-  };
+    const newInventoryMedicine = { stock: stock, ...medicines[stockIndex] };
+    console.log(newInventoryMedicine._id);
 
-  // Edit medicine
-  const editMedicine = (index) => {
-    setNewMedicine(medicines[index]);
-    setIsEditing(true);
-    setEditingIndex(index);
+    for (let med in inventoryMedicines) {
+      console.log(inventoryMedicines[med]);
+      if (inventoryMedicines[med]._id == newInventoryMedicine._id) {
+        alert("Item already exists in inventory");
+        return;
+      }
+    }
+    setInventoryMedicines((inStockMedicines) => [...inStockMedicines, newInventoryMedicine])
+
+    const response = await addMedicineToInventory(medicines[stockIndex]._id, stock);
+    if (!response.error) {
+      alert(`Error adding medicine ${response.error}`);
+      return;
+    }
+
+    setAddStockState(false);
+    setUpdateStockState(false);
+    setStock(1);
+  }
+
+  // Updating the stock in the inventory
+  const onUpdateStock = async (med, index) => {
+    console.log(med);
+    console.log(index);
+    setAddStockState(true);
+    setUpdateStockState(true);
+    setUpdateStockId(med._id);
+  }
+
+  const resetStock = (e) => {
+    e.preventDefault();
+    setAddStockState(false);
+  }
+
+  // Fetch medicines and groups on component load
+  useEffect(() => {
+    const fetchResponse = async () => {
+      const response = await fetch_all_medicine();
+      const groupsAvailableResponse = await fetch_groups_available();
+      const inventoryItemsResponse = await fetchInventoryItems();
+      if (!response.error) {
+        setMedicines(response.data);
+      }
+      if (!groupsAvailableResponse.error) {
+        setGroupsAvailable(groupsAvailableResponse.data);
+      }
+      if (!inventoryItemsResponse.error) {
+        setInventoryMedicines(inventoryItemsResponse.data);
+      }
+      setLoading(false);
+    };
+    fetchResponse();
+  }, []);
+
+  // Handle deleting a medicine
+  const deleteMedicine = (index) => {
+    const updatedMedicines = inventoryMedicines.filter((_, i) => i !== index);
+    setInventoryMedicines(updatedMedicines);
   };
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      <div className="max-w-5xl mx-auto bg-white p-5 rounded-lg shadow">
-        {/* Header */}
-        <header className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl font-semibold text-gray-800">
-            Inventory &gt; <span className="text-blue-600">List of Medicines ({medicines.length})</span>
-          </h1>
-          <button 
-            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
-            onClick={addMedicine}
-          >
-            {isEditing ? "Save Changes" : "+ Add New Item"}
-          </button>
-        </header>
-        
-        {/* Search and Filter */}
-        <div className="flex items-center justify-between mb-4">
-          <input
-            type="text"
-            placeholder="Search Medicine Inventory..."
-            className="border border-gray-300 p-2 rounded-lg w-1/2"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <select className="border border-gray-300 p-2 rounded-lg">
-            <option value="">- Select Group -</option>
-            <option value="Generic Medicine">Generic Medicine</option>
-            <option value="Diabetes">Diabetes</option>
-          </select>
-        </div>
-
-        {/* Table */}
-        <table className="w-full border-collapse bg-white">
-          <thead>
-            <tr className="bg-gray-100 text-left">
-              <th className="p-3 border">Medicine Name</th>
-              <th className="p-3 border">Medicine ID</th>
-              <th className="p-3 border">Group Name</th>
-              <th className="p-3 border">Stock in Qty</th>
-              <th className="p-3 border">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {medicines
-              .filter(med => med.name.toLowerCase().includes(search.toLowerCase()))
-              .map((medicine, index) => (
-                <tr key={index} className="hover:bg-gray-50">
-                  <td className="p-3 border">{medicine.name}</td>
-                  <td className="p-3 border">{medicine.id}</td>
-                  <td className="p-3 border">{medicine.group}</td>
-                  <td className="p-3 border">{medicine.stock}</td>
-                  <td className="p-3 border flex gap-2">
-                    <button className="text-blue-500 hover:underline">View Full Detail</button>
-                    <button 
-                      className="text-yellow-500 hover:underline flex items-center gap-1"
-                      onClick={() => editMedicine(index)}
-                    >
-                      <FontAwesomeIcon icon={faEdit} /> Edit
-                    </button>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
-
-        {/* Add/Edit Medicine Form */}
-        <div className="mt-6 bg-gray-100 p-4 rounded-lg">
-          <h2 className="text-xl font-semibold mb-4">
-            {isEditing ? "Edit Medicine" : "Add New Medicine"}
-          </h2>
-          <div className="grid grid-cols-2 gap-4">
-            <input
-              type="text"
-              name="name"
-              placeholder="Medicine Name"
-              value={newMedicine.name}
-              onChange={handleInputChange}
-              className="border border-gray-300 p-2 rounded-lg"
-            />
-            <input
-              type="text"
-              name="id"
-              placeholder="Medicine ID"
-              value={newMedicine.id}
-              onChange={handleInputChange}
-              className="border border-gray-300 p-2 rounded-lg"
-            />
-            <input
-              type="text"
-              name="group"
-              placeholder="Group Name"
-              value={newMedicine.group}
-              onChange={handleInputChange}
-              className="border border-gray-300 p-2 rounded-lg"
-            />
-            <input
-              type="number"
-              name="stock"
-              placeholder="Stock Quantity"
-              value={newMedicine.stock}
-              onChange={handleInputChange}
-              className="border border-gray-300 p-2 rounded-lg"
-            />
+      {loading && <p>Loading...</p>}
+      {/* STOCK ENTRY POPUP */}
+      {addStockState &&
+        <div className='absolute top-0 h-full left-0 w-full justify-center items-center flex flex-col mx-auto p-5 rounded-lg'>
+          <div className='bg-gray-200 py-8 px-32 rounded-md shadow'>
+            <div className='text-2xl font-bold pb-5'>Stock Update</div>
+            <form className='' onSubmit={updateStock} onReset={resetStock}>
+              <div className='mb-2'>
+                <span className='font-semibold'>Stock Name</span> - <span className=''>{medicines[stockIndex].name}</span>
+                <br />
+                <span className='font-semibold'>Available Stock</span> - <span className=''>{inventoryMedicines[stockIndex].stock}</span>
+              </div>
+              <CustomInput
+                label="Add Stock Quantity"
+                onChange={(e) => {
+                  setStock(e.target.value);
+                }}
+                value={stock}
+                type="number"
+                min="1"
+              />
+              <div className='flex flex-row justify-between'>
+                <button className='bg-blue-500 text-sm text-white rounded-md mt-5 hover:bg-blue-600 p-3' type='submit'>
+                  Add Stock
+                </button>
+                <button className='bg-red-500 text-sm text-white rounded-md mt-5 hover:bg-red-600 p-3' type='reset'>
+                  Cancel
+                </button>
+              </div>
+            </form>
           </div>
-          <button
-            onClick={addMedicine}
-            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-          >
-            {isEditing ? "Save Changes" : "Add Medicine"}
-          </button>
         </div>
-      </div>
+      }
+      {!loading && (
+        <div className="max-w-5xl mx-auto bg-white p-5 rounded-lg shadow">
+          {/* Header */}
+          <header className="flex items-center justify-between mb-4">
+            <div>
+              <h1 className="text-2xl font-semibold text-gray-700">
+                Inventory &gt; <span className="text-2xl text-black font-bold">List of Medicines ({inventoryMedicines.length})</span>
+              </h1>
+              <h2>List of medicines available for inventory.</h2>
+            </div>
+            <button onClick={() => navigator("update")}
+              className='bg-blue-600 px-8 py-2.5 rounded-sm font-semibold text-white'>
+              Add New Item
+            </button>
+          </header>
+
+          <div className="my-8">
+            {/* MEDICINES IN INVENTORY */}
+            <div className="flex items-center justify-between mb-4">
+              {/* Search Input */}
+              <input
+                type="text"
+                placeholder="Search Inventory..."
+                className="border border-gray-300 p-2 rounded-lg w-1/2"
+                value={searchInventory}
+                onChange={(e) => setSearchInventory(e.target.value)}
+              />
+
+              {/* Dynamic Select Dropdown */}
+              <select
+                className="border border-gray-300 p-2 rounded-lg"
+                onChange={(e) => setSelectedGroupInventory(e.target.value)}
+              >
+                <option value="">- Select Group -</option>
+                {groupsAvailable.map((group, index) => (
+                  <option key={index} value={group}>
+                    {group}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Table */}
+            <table className="w-full border-collapse bg-white">
+              <thead>
+                <tr className="bg-gray-100 text-left">
+                  <th className="p-3 border-2 border-gray-200">Medicine Name</th>
+                  <th className="p-3 border-2 border-gray-200">Medicine ID</th>
+                  <th className="p-3 border-2 border-gray-200">Group Name</th>
+                  <th className="p-3 border-2 border-gray-200">Stock in Qty</th>
+                  <th className="p-3 border-2 border-gray-200">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {inventoryMedicines.length !== 0 &&
+                  inventoryMedicines
+                    .filter((med) =>
+                      med.name.toLowerCase().includes(searchInventory.toLowerCase()) &&
+                      med.group.toLowerCase().includes(selectedGroupInventory.toLowerCase())
+                    )
+                    .map((medicine, index) => (
+                      <tr key={index} className="hover:bg-gray-50" onDoubleClick={() => handleMedicineNavigate(medicine._id)}>
+                        <td className="p-3 border m-auto">{medicine.name}</td>
+                        <td className="p-3 border m-auto">{medicine.id}</td>
+                        <td className="p-3 border m-auto">{medicine.group}</td>
+                        <td className="p-3 border m-auto">{medicine.stock}</td>
+                        <td className="p-3 border flex flex-col items-center gap-2">
+                          <button
+                            className="m-auto text-yellow-500 hover:underline flex items-center m-3"
+                            onClick={() => onUpdateStock(medicine, index)}
+                          >
+                            <FontAwesomeIcon icon={faEdit} /> Update Stock
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+              </tbody>
+            </table>
+            {inventoryMedicines.filter((med) => med.name.toLowerCase().includes(searchInventory.toLowerCase())).length === 0 && (
+              <div className="flex py-5 flex-row w-full justify-center items-center border-2 border-t-0">
+                <h2>Inventory is Empty</h2>
+              </div>
+            )}
+          </div>
+
+
+
+          {/* AVAILABLE MEDICINES IN THE DATABASE OF THE USER */}
+          {/* Search and Filter */}
+          <h2 className='text-2xl font-semibold mb-2'>List of medicines available</h2>
+          <div className="flex items-center justify-between mb-4">
+            {/* Search Input */}
+            <input
+              type="text"
+              placeholder="Search for Medicine..."
+              className="border border-gray-300 p-2 rounded-lg w-1/2"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+
+            {/* Dynamic Select Dropdown */}
+            <select
+              className="border border-gray-300 p-2 rounded-lg"
+              onChange={(e) => setSelectedGroup(e.target.value)}
+            >
+              <option value="">- Select Group -</option>
+              {groupsAvailable.map((group, index) => (
+                <option key={index} value={group}>
+                  {group}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Table */}
+          <table className="w-full border-collapse bg-white">
+            <thead>
+              <tr className="bg-gray-100 text-left">
+                <th className="p-3 border-2 border-gray-200">Medicine Name</th>
+                <th className="p-3 border-2 border-gray-200">Medicine ID</th>
+                <th className="p-3 border-2 border-gray-200">Group Name</th>
+                {/* <th className="p-3 border-2 border-gray-200">Stock in Qty</th> */}
+                <th className="p-3 border-2 border-gray-200">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {medicines.length !== 0 &&
+                medicines
+                  .filter((med) =>
+                    med.name.toLowerCase().includes(search.toLowerCase()) &&
+                    med.group.toLowerCase().includes(selectedGroup.toLowerCase())
+                  )
+                  .map((medicine, index) => (
+                    <tr key={index} className="hover:bg-gray-50">
+                      <td className="p-3 border m-auto">{medicine.name}</td>
+                      <td className="p-3 border m-auto">{medicine.id}</td>
+                      <td className="p-3 border m-auto">{medicine.group}</td>
+                      {/* <td className="p-3 border m-auto">{medicine.stock}</td> */}
+                      <td className="p-3 border m-auto flex gap-2">
+                        <button
+                          className="text-yellow-500 flex items-center gap-1"
+                          onClick={() => addToInventory(index)}
+                        >
+                          <FontAwesomeIcon icon={faPlusCircle} /> Add To Inventory
+                        </button>
+                        {/* <button
+                          className="text-red-500 flex items-center gap-1"
+                          onClick={() => deleteMedicine(index)}
+                        >
+                          <FontAwesomeIcon icon={faTrash} /> Delete
+                        </button> */}
+                      </td>
+                    </tr>
+                  ))}
+            </tbody>
+          </table>
+          {medicines.filter((med) => med.name.toLowerCase().includes(search.toLowerCase())).length === 0 && (
+            <div className="flex mt-5 flex-row w-full justify-center items-center">
+              <h2>Nothing to Display</h2>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

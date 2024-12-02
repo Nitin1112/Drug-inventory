@@ -8,7 +8,12 @@ export default {
     // colors:{
     //   'primary': '#164e63',
     // },
-    extend: {},
+    extend: {
+      backgroundColor: {
+        "ice-blue": "#EDF1F5",
+      },
+
+    },
   },
   plugins: [],
 }

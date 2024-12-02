@@ -3,11 +3,21 @@ import mongoose from "mongoose";
 const inventorySchema = new mongoose.Schema(
     {
         owner: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // Owner of the inventory
+        groupsAvailable: { type: Array },
+        medicines: [
+            {
+                medicineOrDrug: { type: mongoose.Schema.Types.ObjectId, ref: "MedicineAndDrug", required: true }, // Medicine/Drug reference
+                stock: { type: Number, required: true },
+                lifetimeSupply: { type: Number, default: 0 },
+                lifetimeSales: { type: Number, default: 0 },
+            },
+        ],
         items: [
             {
                 medicineOrDrug: { type: mongoose.Schema.Types.ObjectId, ref: "MedicineAndDrug", required: true }, // Medicine/Drug reference
-                quantity: { type: Number, required: true },
-                batchNumber: { type: String }, // Optional batch tracking
+                expiryDate: { type: Date },
+                stock: { type: Number, required: true },
+                batchNumber: { type: String },
                 addedAt: { type: Date, default: Date.now },
             },
         ],
