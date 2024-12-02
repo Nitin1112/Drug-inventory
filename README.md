@@ -1,4 +1,6 @@
-# Drug Inventory and Supply Chain Tracking System\n\n## Installation and Running the Project
+# Drug Inventory and Supply Chain Tracking System
+
+## Installation and Running the Project
 
 Follow these steps to set up and run the project:
 

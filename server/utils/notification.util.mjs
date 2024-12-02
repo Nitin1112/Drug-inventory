@@ -15,6 +15,7 @@ export const sendMailToAdmin = async (adminEmail, template) => {
     const transporter = nodemailer.createTransport(nodemailer_config);
 
     const mailOptions = {
+        from: "PharmaOne",
         to: adminEmail,
         subject: "New User Registration",
         html: template,
@@ -33,6 +34,7 @@ export const sendMail = async (mail, subject, template) => {
     const transporter = nodemailer.createTransport(nodemailer_config);
 
     const mailOptions = {
+        from: "PharmaOne",
         to: mail,
         subject: subject,
         html: template
