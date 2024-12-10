@@ -6,6 +6,7 @@ const medicineAndDrugSchema = new mongoose.Schema(
         genericName: { type: String },
         type: { type: String, enum: ["Medicine", "Drug"], required: true }, // Differentiates medicine and drug
         group: { type: String },
+        minimumCap: { type: Number, default: 10 },
         manufacturer: { type: String },
         description: { type: String },
         howToUse: { type: String },

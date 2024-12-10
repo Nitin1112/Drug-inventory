@@ -12,7 +12,6 @@ export default {
       backgroundColor: {
         "ice-blue": "#EDF1F5",
       },
-
     },
   },
   plugins: [],

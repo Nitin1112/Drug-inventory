@@ -6,6 +6,8 @@ export const fetch_dashboard_data = async () => {
         const userId = localStorage.getItem("userId"); // Fetch userId from localStorage
         const response = await axios.get(`${client_config.backend_url}/api/inventory/${userId}/dashboard`);
 
+        // console.log(response);
+
         if (response.data.error) {
             return { inventoryStatus: false };
         }

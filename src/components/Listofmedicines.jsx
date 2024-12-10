@@ -144,7 +144,10 @@ const Listofmedicines = () => {
               <div className='mb-2'>
                 <span className='font-semibold'>Stock Name</span> - <span className=''>{medicines[stockIndex].name}</span>
                 <br />
-                <span className='font-semibold'>Available Stock</span> - <span className=''>{inventoryMedicines[stockIndex].stock}</span>
+                <span className='font-semibold'>Available Stock</span>
+                <span className=''> - {inventoryMedicines[stockIndex] && inventoryMedicines[stockIndex].stock}
+                  {!inventoryMedicines[stockIndex] && 0}
+                </span>
               </div>
               <CustomInput
                 label="Add Stock Quantity"
@@ -228,7 +231,7 @@ const Listofmedicines = () => {
                       med.group.toLowerCase().includes(selectedGroupInventory.toLowerCase())
                     )
                     .map((medicine, index) => (
-                      <tr key={index} className="hover:bg-gray-50" onDoubleClick={() => handleMedicineNavigate(medicine._id)}>
+                      <tr key={index} className={`cursor-pointer ${medicine.minimumCap && medicine.minimumCap > medicine.stock ? "bg-red-400 hover:bg-red-500" : "hover:bg-gray-50"}`} onDoubleClick={() => handleMedicineNavigate(medicine._id)}>
                         <td className="p-3 border m-auto">{medicine.name}</td>
                         <td className="p-3 border m-auto">{medicine.id}</td>
                         <td className="p-3 border m-auto">{medicine.group}</td>
@@ -245,6 +248,7 @@ const Listofmedicines = () => {
                     ))}
               </tbody>
             </table>
+
             {inventoryMedicines.filter((med) => med.name.toLowerCase().includes(searchInventory.toLowerCase())).length === 0 && (
               <div className="flex py-5 flex-row w-full justify-center items-center border-2 border-t-0">
                 <h2>Inventory is Empty</h2>
