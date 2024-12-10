@@ -11,7 +11,8 @@ import SupplierContact from './components/SupplierContact';
 import COVID19Info from './components/Covid'
 import AddNewItem from './components/inventory/AddNewItem';
 import SingleMedicine from './components/inventory/SingleMedicine';
-
+import Login from './components/Login'
+import Register from './components/Register'
 const App = () => {
   return (
     <div className="flex-grow p-0 bg-ice-blue">
@@ -35,6 +36,8 @@ const App = () => {
             <Route path="/Medicinegroup" element={<Medicinegroup />} />
             <Route path="/Reports" element={<Reports />} />
           </Route>
+          <Route path="/login" element={<Login />} />
+          <Route path="/Register" element={<Register />} />
         </Routes>
       </BrowserRouter>
     </div>
