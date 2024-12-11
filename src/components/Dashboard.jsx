@@ -12,13 +12,14 @@ const Dashboard = () => {
   useEffect(() => {
     const fetch_data = async () => {
       const response = await fetch_dashboard_data();
+      console.log(response);
+
       if (response.inventoryStatus) {
-        setInventoryStatus(true);
         setDashboardData(response);
+        setInventoryStatus(true);
       } else {
         setInventoryStatus(false);
       }
-      console.log(dashboardData);
 
     }
     fetch_data();
@@ -68,7 +69,7 @@ const Dashboard = () => {
               <img src={dashboardImage.medicine} className='m-auto' />
               <h2 className="text-lg font-bold text-blue-800">298</h2>
               <p className="text-sm text-gray-500">Medicines Available</p>
-              <a className="mt-2 py-2 text-blue-800 hover:underline bg-blue-200 border-t-2 border-blue-300 flex align-center justify-center w-full">
+              <a href='/inventory' className="mt-2 py-2 text-blue-800 hover:underline bg-blue-200 border-t-2 border-blue-300 flex align-center justify-center w-full">
                 Visit Inventory &raquo;
               </a>
             </div>
@@ -84,11 +85,11 @@ const Dashboard = () => {
               </div>
               <div className="px-12 my-6 flex justify-between items-center">
                 <div className='flex flex-col justify-center items-start'>
-                  <p className="text-lg font-bold text-black">298</p>
+                  <p className="text-lg font-bold text-black">{dashboardData.totalMedicines}</p>
                   <p className="text-black">Total no of Medicines</p>
                 </div>
                 <div className='flex flex-col justify-center items-start'>
-                  <p className="text-lg font-bold text-black">24</p>
+                  <p className="text-lg font-bold text-black">{dashboardData.availableMedicineGroups}</p>
                   <p className="text-black">Medicine Groups</p>
                 </div>
               </div>

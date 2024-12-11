@@ -67,3 +67,18 @@ export const fetchInventoryItems = async () => {
         return { error: error.message };
     }
 }
+
+export const fetchAvailableMedicines = async () => {
+    try {
+        const userId = localStorage.getItem('userId');
+        const response = await axios.get(`${client_config.backend_url}/api/inventory/items/${userId}`);
+
+        if (response.data.error) {
+            return { error: response.data.error };
+        }
+
+        return { data: response.data.data };
+    } catch (error) {
+        return { error: error.message };
+    }
+}

@@ -5,7 +5,7 @@ import MedicineAndDrug from "../models/medicine.model.mjs";
 export const addInventoryItem = async (req, res) => {
     try {
         const data = req.body;
-        console.log(data);
+        // console.log(data);
 
         if (!data) {
             return res.status(200).json({ error: "No data provided" });
@@ -33,11 +33,35 @@ export const addInventoryItem = async (req, res) => {
         }
 
 
-        for (const item of inventory.medicines) {
+        for (const item of inventory.items) {
+            console.log(item.medicineOrDrug);
+
             // Ensure proper comparison for MongoDB ObjectIDs
             if (item.medicineOrDrug.toString() === medicine._id.toString()) {
                 item.stock = data.stock;
-                console.log(item.stock - data.stock);
+
+                try {
+                    await inventory.save();
+                    // return res.status(201).json({
+                    //     message: "Inventory item updated successfully",
+                    //     data: medicine._id,
+                    // });
+                } catch (error) {
+                    return res.status(500).json({
+                        message: "Failed to update inventory",
+                        error: error.message,
+                    });
+                }
+            }
+        }
+
+        for (const item of inventory.medicines) {
+            console.log(item.medicineOrDrug);
+
+            // Ensure proper comparison for MongoDB ObjectIDs
+            if (item.medicineOrDrug.toString() === medicine._id.toString()) {
+                item.lifetimeSupply = item.lifetimeSupply - item.stock + data.stock;
+                item.stock = data.stock;
 
                 try {
                     await inventory.save();
@@ -55,7 +79,9 @@ export const addInventoryItem = async (req, res) => {
         }
 
         const inventoryItem = { medicineOrDrug: medicine._id, stock: data.stock, batchNumber: data.batchNumber, }
+        const inventoryMedicineItem = { medicineOrDrug: medicine._id, stock: data.stock, lifetimeSupply: data.stock, lifetimeSales: 0 }
         inventory.items.push(inventoryItem);
+        inventory.medicines.push(inventoryMedicineItem);
         await inventory.save();
 
         return res.status(201).json({ message: "Inventory item added successfully", data: medicine._id });
@@ -163,9 +189,7 @@ export const getDashboardData = async (req, res) => {
 
         // Fetch the inventory for the user
         const inventory = await Inventory.findOne({ owner: userId }).populate("items.medicineOrDrug");
-        console.log(Inventory.findOne({ owner: userId }));
 
-        console.log(inventory);
         if (!inventory) return res.status(200).json({ error: "Inventory not found" });
 
         // Total medicines and drugs calculation
@@ -178,6 +202,9 @@ export const getDashboardData = async (req, res) => {
 
         // Aggregated Data
         const totalItems = inventory.items.length;
+
+        // 
+        const availableMedicineGroups = inventory.items.length;
 
         // Fetch frequently bought item (mocked for now)
         const frequentlyBoughtItem = "Paracetamol 500mg";
@@ -208,6 +235,7 @@ export const getDashboardData = async (req, res) => {
             quickReport,
             myPharmacy,
             customers,
+            availableMedicineGroups,
         });
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -219,8 +247,6 @@ export const getAvailableMedicineGroups = async (req, res) => {
     try {
         const user_id = req.params.userId;
         const inventory = await Inventory.findOne({ owner: user_id });
-
-        console.log(inventory);
 
         if (!inventory) {
             return res.status(404).json({ error: 'Inventory Not Found' });
@@ -260,6 +286,3 @@ export const getInventoryItems = async (req, res) => {
     }
 }
 
-export const updateInventoryStock = async () => {
-
-}
