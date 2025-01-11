@@ -78,8 +78,6 @@ Follow these steps to set up and run the project:
 ## License
 This project is licensed under the [MIT License](LICENSE).
 
----
-
 ## Team PharmaOne
 <table>
   <tr>
