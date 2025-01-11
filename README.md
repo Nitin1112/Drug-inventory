@@ -46,15 +46,15 @@ PharmaOne is an innovative solution designed to streamline the pharmaceutical su
    │   ├── server.config.js   # Server configuration file (Secret Keys)
    │   ├── server.js          # Entry point for the backend server
    │
-   ├── src/                   # Frontend (React.js)
-   │   ├── assets/            # Static assets (images, icons, etc.)
-   │   ├── components/        # React components
-   │   ├── controllers/       # React component controllers
-   │   ├── App.jsx            # Main React component
-   │   ├── index.css          # Global styles for the frontend
-   │   ├── index.html         # Main HTML file
-   │   ├── main.jsx           # Entry point for React app
-   │   └── client.config.mjs  # Client-side configurations (Client Secret Keys)
+   └── src/                   # Frontend (React.js)
+       ├── assets/            # Static assets (images, icons, etc.)
+       ├── components/        # React components
+       ├── controllers/       # React component controllers
+       ├── App.jsx            # Main React component
+       ├── index.css          # Global styles for the frontend
+       ├── index.html         # Main HTML file
+       ├── main.jsx           # Entry point for React app
+       └── client.config.mjs  # Client-side configurations (Client Secret Keys)
 ```
 
 ## Installation and Running the Project
