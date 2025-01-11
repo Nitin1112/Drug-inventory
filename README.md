@@ -79,25 +79,24 @@ Follow these steps to set up and run the project:
 This project is licensed under the [MIT License](LICENSE).
 
 ## Team PharmaOne
-<table>
-  <tr>
-    <td align="center">
-      <a href="https://github.com/your-profile-link">
-        <img src="https://avatars.githubusercontent.com/Navin82005" width="100px;" alt="Your Name"/>
-        <br />
-        <sub><b>Your Name</b></sub>
-      </a>
-      <br />
-      👨‍💻
-    </td>
-    <td align="center">
-      <a href="https://github.com/contributor-profile-link">
-        <img src="https://avatars.githubusercontent.com/Nitin1112" width="100px;" alt="Contributor Name"/>
-        <br />
-        <sub><b>Contributor Name</b></sub>
-      </a>
-      <br />
-      👩‍💻
-    </td>
-  </tr>
-</table>
+
+<p align="center">
+  <a href="https://github.com/your-profile-link">
+    <img src="https://avatars.githubusercontent.com/your-username" width="100px" style="border-radius: 50%;" alt="Your Name"/>
+    <br />
+    <sub><b>Your Name</b></sub>
+  </a>
+  <br />
+  👨‍💻
+</p>
+
+<p align="center">
+  <a href="https://github.com/contributor-profile-link">
+    <img src="https://avatars.githubusercontent.com/contributor-username" width="100px" style="border-radius: 50%;" alt="Contributor Name"/>
+    <br />
+    <sub><b>Contributor Name</b></sub>
+  </a>
+  <br />
+  👩‍💻
+</p>
+
