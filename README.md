@@ -78,10 +78,7 @@ Follow these steps to set up and run the project:
 ## License
 This project is licensed under the [MIT License](LICENSE).
 
-## Contributions
-Contributions are welcome! Please create an issue or submit a pull request for review.
-
 ---
 
 ### Authors
-- **Team PharmaOne** - Smart India Hackathon (SIH) 2024 Submission
+- **Team PharmaOne**
