@@ -80,20 +80,21 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Team PharmaOne
 
-## Contributors
-
 <div align="center">
   <a href="https://github.com/Navin82005">
-    <img src="https://avatars.githubusercontent.com/Navin82005" width="100px" style="border-radius: 50%;" alt="Naveen N"/>
+    <img src="https://avatars.githubusercontent.com/Navin82005" width="50px" style="border-radius: 50%;" alt="Naveen N"/>
   </a>
-  <a href="https://github.com/Nitin1112" style="margin: 0 20px;">
-    <img src="https://avatars.githubusercontent.com/Nitin1112" width="100px" style="border-radius: 50%;" alt="Nitin B"/>
+   
+  <a href="https://github.com/Nitin1112" style="padding: 0 20px;">
+    <img src="https://avatars.githubusercontent.com/Nitin1112" width="50px" style="border-radius: 50%;" alt="Nitin B"/>
   </a>
+  
   <a href="https://github.com/mohammedasan">
-    <img src="https://avatars.githubusercontent.com/mohammedasan" width="100px" style="border-radius: 50%;" alt="Mohammed Asan I"/>
+    <img src="https://avatars.githubusercontent.com/mohammedasan" width="50px" style="border-radius: 50%;" alt="Mohammed Asan I"/>
   </a>
-  <a href="https://github.com/naveen-raj" style="margin: 0 20px;">
-    <img src="https://avatars.githubusercontent.com/naveen-raj" width="100px" style="border-radius: 50%;" alt="Naveen Raj"/>
+  
+  <a href="https://github.com/naveen-raj" style="padding: 0 20px;">
+    <img src="https://avatars.githubusercontent.com/naveen-raj" width="50px" style="border-radius: 50%;" alt="Naveen Raj"/>
   </a>
 </div>
 
