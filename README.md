@@ -81,8 +81,6 @@ This project is licensed under the [MIT License](LICENSE).
 ---
 
 ## Team PharmaOne
-## Contributors
-
 <table>
   <tr>
     <td align="center">
