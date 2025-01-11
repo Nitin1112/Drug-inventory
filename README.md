@@ -82,29 +82,19 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Contributors
 
-<div align="">
+<div align="center">
   <a href="https://github.com/Navin82005">
-    <img src="https://avatars.githubusercontent.com/Navin82005" width="100px" style="border-radius: 50% !important;" alt="Naveen N"/>
-<!--     <br /> -->
-    <sub><b>Naveen N</b></sub>
+    <img src="https://avatars.githubusercontent.com/Navin82005" width="100px" style="border-radius: 50%;" alt="Naveen N"/>
   </a>
-  
   <a href="https://github.com/Nitin1112" style="margin: 0 20px;">
     <img src="https://avatars.githubusercontent.com/Nitin1112" width="100px" style="border-radius: 50%;" alt="Nitin B"/>
-<!--     <br /> -->
-    <sub><b>Nitin B</b></sub>
   </a>
-  
   <a href="https://github.com/mohammedasan">
     <img src="https://avatars.githubusercontent.com/mohammedasan" width="100px" style="border-radius: 50%;" alt="Mohammed Asan I"/>
-<!--     <br />    -->
-    <sub><b>Mohammed Asan I</b></sub>
   </a>
-  
   <a href="https://github.com/naveen-raj" style="margin: 0 20px;">
     <img src="https://avatars.githubusercontent.com/naveen-raj" width="100px" style="border-radius: 50%;" alt="Naveen Raj"/>
-<!--     <br /> -->
-    <sub><b>Naveen Raj</b></sub>
   </a>
 </div>
+
 
