@@ -79,31 +79,7 @@ This project is licensed under the [MIT License](LICENSE).
 ## Team PharmaOne
 ### Meet the Team:
 
-<div>
-  <a href="https://github.com/Navin82005" style="display: inline-block;">
-    <img src="https://avatars.githubusercontent.com/Navin82005" width="50px" style="border-radius: 50%;" alt="Naveen N"/>
-     <br />
-     Naveen N
-  </a>
-   <img width="20" />
-  <a href="https://github.com/Nitin1112" style="display: inline-block; padding: 0 20px;">
-    <img src="https://avatars.githubusercontent.com/Nitin1112" width="50px" style="border-radius: 50%;" alt="Nitin B"/>
-     <br />
-     Nitin B
-  </a>
-  <img width="20" />
-  <a href="https://github.com/mohammedasan" style="display: inline-block;">
-    <img src="https://avatars.githubusercontent.com/mohammedasan" width="50px" style="border-radius: 50%;" alt="Mohammed Asan I"/>
-     <br />
-     Mohammed Asan I
-  </a>
-  <img width="20" />
-  <a href="https://github.com/naveen-raj" style="display: inline-block; padding: 0 20px;">
-    <img src="https://avatars.githubusercontent.com/naveen-raj" width="50px" style="border-radius: 50%;" alt="Naveen Raj"/>
-     <br />
-     Naveen Raj
-  </a>
-</div>
+<div> <a href="https://github.com/Navin82005" style="display: inline-block;"> <img src="https://avatars.githubusercontent.com/Navin82005" width="50px" style="border-radius: 50%;" alt="Naveen N"/> </a> <img width="20" /> <a href="https://github.com/Nitin1112" style="display: inline-block; padding: 0 20px;"> <img src="https://avatars.githubusercontent.com/Nitin1112" width="50px" style="border-radius: 50%;" alt="Nitin B"/> </a> <img width="20" /> <a href="https://github.com/mohammedasan" style="display: inline-block;"> <img src="https://avatars.githubusercontent.com/mohammedasan" width="50px" style="border-radius: 50%;" alt="Mohammed Asan I"/> </a> <img width="20" /> <a href="https://github.com/naveen-raj" style="display: inline-block; padding: 0 20px;"> <img src="https://avatars.githubusercon
 
 
 
