@@ -80,42 +80,31 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Team PharmaOne
 
-<p align="center">
-  <a href="https://github.com/your-profile-link">
-    <img src="https://avatars.githubusercontent.com/Navin82005" width="100px" style="border-radius: 50%;" alt="Your Name"/>
+## Contributors
+
+<div align="center">
+  <a href="https://github.com/Navin82005">
+    <img src="https://avatars.githubusercontent.com/Navin82005" width="100px" style="border-radius: 50%;" alt="Naveen N"/>
     <br />
     <sub><b>Naveen N</b></sub>
   </a>
-  <br />
-  👨‍💻
-</p>
-
-<p align="center">
-  <a href="https://github.com/contributor-profile-link">
-    <img src="https://avatars.githubusercontent.com/Nitin1112" width="100px" style="border-radius: 50%;" alt="Contributor Name"/>
+  
+  <a href="https://github.com/Nitin1112" style="margin: 0 20px;">
+    <img src="https://avatars.githubusercontent.com/Nitin1112" width="100px" style="border-radius: 50%;" alt="Nitin B"/>
     <br />
     <sub><b>Nitin B</b></sub>
   </a>
-  <br />
-  👩‍💻
-</p>
-
-<p align="center">
-  <a href="https://github.com/contributor-profile-link">
-    <img src="https://avatars.githubusercontent.com/mohammedasan" width="100px" style="border-radius: 50%;" alt="Contributor Name"/>
+  
+  <a href="https://github.com/mohammedasan">
+    <img src="https://avatars.githubusercontent.com/mohammedasan" width="100px" style="border-radius: 50%;" alt="Mohammed Asan I"/>
     <br />
     <sub><b>Mohammed Asan I</b></sub>
   </a>
-  <br />
-  👩‍💻
-</p>
-
-<p align="center">
-  <a href="https://github.com/contributor-profile-link">
-    <img src="https://avatars.githubusercontent.com/naveen-raj" width="100px" style="border-radius: 50%;" alt="Contributor Name"/>
+  
+  <a href="https://github.com/naveen-raj" style="margin: 0 20px;">
+    <img src="https://avatars.githubusercontent.com/naveen-raj" width="100px" style="border-radius: 50%;" alt="Naveen Raj"/>
     <br />
     <sub><b>Naveen Raj</b></sub>
   </a>
-  <br />
-  👩‍💻
-</p>
+</div>
+
