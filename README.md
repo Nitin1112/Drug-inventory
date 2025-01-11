@@ -82,9 +82,9 @@ This project is licensed under the [MIT License](LICENSE).
 
 <p align="center">
   <a href="https://github.com/your-profile-link">
-    <img src="https://avatars.githubusercontent.com/your-username" width="100px" style="border-radius: 50%;" alt="Your Name"/>
+    <img src="https://avatars.githubusercontent.com/Navin82005" width="100px" style="border-radius: 50%;" alt="Your Name"/>
     <br />
-    <sub><b>Your Name</b></sub>
+    <sub><b>Naveen N</b></sub>
   </a>
   <br />
   👨‍💻
@@ -92,11 +92,30 @@ This project is licensed under the [MIT License](LICENSE).
 
 <p align="center">
   <a href="https://github.com/contributor-profile-link">
-    <img src="https://avatars.githubusercontent.com/contributor-username" width="100px" style="border-radius: 50%;" alt="Contributor Name"/>
+    <img src="https://avatars.githubusercontent.com/Nitin1112" width="100px" style="border-radius: 50%;" alt="Contributor Name"/>
     <br />
-    <sub><b>Contributor Name</b></sub>
+    <sub><b>Nitin B</b></sub>
   </a>
   <br />
   👩‍💻
 </p>
 
+<p align="center">
+  <a href="https://github.com/contributor-profile-link">
+    <img src="https://avatars.githubusercontent.com/mohammedasan" width="100px" style="border-radius: 50%;" alt="Contributor Name"/>
+    <br />
+    <sub><b>Mohammed Asan I</b></sub>
+  </a>
+  <br />
+  👩‍💻
+</p>
+
+<p align="center">
+  <a href="https://github.com/contributor-profile-link">
+    <img src="https://avatars.githubusercontent.com/naveen-raj" width="100px" style="border-radius: 50%;" alt="Contributor Name"/>
+    <br />
+    <sub><b>Naveen Raj</b></sub>
+  </a>
+  <br />
+  👩‍💻
+</p>
