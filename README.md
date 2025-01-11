@@ -82,7 +82,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Contributors
 
-<div align="center">
+<div align="">
   <a href="https://github.com/Navin82005">
     <img src="https://avatars.githubusercontent.com/Navin82005" width="100px" style="border-radius: 50%;" alt="Naveen N"/>
     <br />
@@ -97,7 +97,7 @@ This project is licensed under the [MIT License](LICENSE).
   
   <a href="https://github.com/mohammedasan">
     <img src="https://avatars.githubusercontent.com/mohammedasan" width="100px" style="border-radius: 50%;" alt="Mohammed Asan I"/>
-    <br />
+    <br />   
     <sub><b>Mohammed Asan I</b></sub>
   </a>
   
