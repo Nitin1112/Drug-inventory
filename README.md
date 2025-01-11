@@ -84,7 +84,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 <div align="">
   <a href="https://github.com/Navin82005">
-    <img src="https://avatars.githubusercontent.com/Navin82005" width="100px" style="border-radius: 50%;" alt="Naveen N"/>
+    <img src="https://avatars.githubusercontent.com/Navin82005" width="100px" style="border-radius: 50% !important;" alt="Naveen N"/>
     <br />
     <sub><b>Naveen N</b></sub>
   </a>
