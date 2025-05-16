@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 
 const NotificationSchema = new mongoose.Schema({
+    inventoryId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Inventory",
+        required: true,
+    },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
@@ -14,6 +19,19 @@ const NotificationSchema = new mongoose.Schema({
         type: String,
         enum: ["Unread", "Read"],
         default: "Unread",
+    },
+    lowStockItems: {
+        type: [String],
+        default: [],
+    },
+    expiringItems: {
+        type: [String],
+        default: [],
+    },
+    type: {
+        type: String,
+        enum: ["warning", "success", "danger", "info", "normal"],
+        default: "warning",
     },
     createdAt: {
         type: Date,

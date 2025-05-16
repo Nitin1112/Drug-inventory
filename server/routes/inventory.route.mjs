@@ -27,7 +27,7 @@ inventoryRouter.get("/items/:userId", getInventoryItems);
 inventoryRouter.get("/:id", getInventoryItemById);
 
 // Update quantity or batch details of a specific inventory item
-inventoryRouter.put("/:id", updateInventoryItem);
+inventoryRouter.put("/update/medicine", updateInventoryItem);
 
 // Remove an item from the inventory
 inventoryRouter.delete("/:id", deleteInventoryItem);
