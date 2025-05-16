@@ -11,6 +11,11 @@ import adminRouter from "./routes/admin.route.mjs"; // Super admin routes
 
 import { requestLoggerMiddleware } from "./middlewares/log.middleware.mjs";
 import medicinesRouter from "./routes/medicines.route.mjs";
+import receiptRouter from "./routes/receipt.rout.mjs";
+import { scanAndNotify } from "./utils/scanAndNotify.mjs";
+import notificationRouter from "./routes/notification.route.mjs";
+
+// scanAndNotify();
 
 const start_server = async () => {
     // Express server initialization
@@ -34,6 +39,8 @@ const start_server = async () => {
     app.use("/api/user", userRouter); // User-related routes
     app.use("/api/admin", adminRouter); // Super admin-related routes
     app.use("/api/medicines", medicinesRouter); // medicines related routes
+    app.use("/api/receipts", receiptRouter); 
+    app.use("/api/notification", notificationRouter); 
 
     // Express server startup
     app.listen(server_config.port, () => {

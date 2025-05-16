@@ -16,6 +16,7 @@
     "drug-inventory": "file:",
     "lucide-react": "^0.462.0",
     "mongoose": "^8.8.2",
+    "node-cron": "^4.0.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-fontawesome": "^1.7.1",

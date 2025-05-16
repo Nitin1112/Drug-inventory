@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 const ReceiptInput = ({ itemNo, onChangeItemName, options }) => {
     const [name, setName] = useState("");
@@ -61,6 +62,11 @@ const ReceiptInput = ({ itemNo, onChangeItemName, options }) => {
             </div>
         </div>
     );
+};
+ReceiptInput.propTypes = {
+    itemNo: PropTypes.any,
+    onChangeItemName: PropTypes.func,
+    options: PropTypes.array.isRequired,
 };
 
 export default ReceiptInput;

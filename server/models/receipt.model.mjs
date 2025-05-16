@@ -16,9 +16,8 @@ const receiptSchema = new mongoose.Schema(
         },
         items: [
             {
-                medicineId: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: "Medicine", // Reference to the medicine model
+                medicineNo: {
+                    type: Number,
                     required: true,
                 },
                 medicineName: {
@@ -49,7 +48,7 @@ const receiptSchema = new mongoose.Schema(
         },
         paymentMethod: {
             type: String,
-            enum: ["Cash", "Card", "Online"],
+            enum: ["Cash", "Card", "Online", "Paytm"],
             required: true,
         },
         dateOfPurchase: {
