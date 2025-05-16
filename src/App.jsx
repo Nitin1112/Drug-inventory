@@ -17,6 +17,7 @@ import InvoiceTemplate from "./components/receipt/InvoiceTemplate";
 import UpdateStock from "./components/inventory/UpdateStock";
 import Notification from "./components/Notification/Notification";
 import SingleNotification from "./components/Notification/SingleNotification";
+import ChatbotAsPage from "./components/Chatbot/ChatbotAsPage";
 
 const App = () => {
   return (
@@ -61,9 +62,14 @@ const App = () => {
 
             {/* Notifications */}
             <Route path="/notifications" element={<Notification />} />
-            <Route path="/notifications/:id/view" element={<SingleNotification />} />
+            <Route
+              path="/notifications/:id/view"
+              element={<SingleNotification />}
+            />
 
-            <Route path="/chat" element={<h1>Chat with Visitors</h1>} />
+            {/* Chatbot Routes */}
+            <Route path="/chat" element={<ChatbotAsPage />} />
+
             <Route path="/settings" element={<h1>Application Settings</h1>} />
             <Route path="/support" element={<h1>Get Technical Help</h1>} />
             <Route path="/Medicinegroup" element={<Medicinegroup />} />
