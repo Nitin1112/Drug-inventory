@@ -1,11 +1,22 @@
-import { useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import { fetch_all_medicine, fetch_groups_available } from '../controllers/medicines.mjs';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEdit,
+  faTrash,
+  faPlusCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import {
+  fetch_all_medicine,
+  fetch_groups_available,
+} from "../controllers/medicines.mjs";
+import { useNavigate } from "react-router-dom";
 
-import { addMedicineToInventory, fetchInventoryItems, inventoryUpdateStock } from '../controllers/inventory.mjs';
-import CustomInput from './common/CustomInput';
+import {
+  addMedicineToInventory,
+  fetchInventoryItems,
+  inventoryUpdateStock,
+} from "../controllers/inventory.mjs";
+import CustomInput from "./common/CustomInput";
 
 const Listofmedicines = () => {
   // Common states
@@ -13,36 +24,38 @@ const Listofmedicines = () => {
   const [groupsAvailable, setGroupsAvailable] = useState([]);
 
   // Inventory specific states
-  const [searchInventory, setSearchInventory] = useState('');
+  const [searchInventory, setSearchInventory] = useState("");
   const [inventoryMedicines, setInventoryMedicines] = useState([]);
   const [selectedGroupInventory, setSelectedGroupInventory] = useState("");
 
   // Available medicines specific states
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [medicines, setMedicines] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState("");
 
   // add stock popup state
   const [addStockState, setAddStockState] = useState(false);
   const [stock, setStock] = useState(1);
+  const [stockBatchNumber, setStockBatchNumber] = useState("");
   const [stockIndex, setStockIndex] = useState(0);
   const [updateStockState, setUpdateStockState] = useState(false);
   const [updateStockId, setUpdateStockId] = useState(false);
-
 
   const navigator = useNavigate();
 
   // Adding stocks to the inventory
   const addToInventory = async (index) => {
+    console.log(medicines[index]);
+    navigator("/inventory/medicine/stock", { state: medicines[index] });
     setAddStockState(true);
     setStockIndex(index);
-  }
+  };
 
   // For navigating to the detailed medicine view
   const handleMedicineNavigate = (id) => {
     console.log(id);
     navigator(`${id}`);
-  }
+  };
 
   // Adding stock to inventory
   const updateStock = async (e) => {
@@ -79,9 +92,15 @@ const Listofmedicines = () => {
         return;
       }
     }
-    setInventoryMedicines((inStockMedicines) => [...inStockMedicines, newInventoryMedicine])
+    setInventoryMedicines((inStockMedicines) => [
+      ...inStockMedicines,
+      newInventoryMedicine,
+    ]);
 
-    const response = await addMedicineToInventory(medicines[stockIndex]._id, stock);
+    const response = await addMedicineToInventory(
+      medicines[stockIndex]._id,
+      stock
+    );
     if (!response.error) {
       alert(`Error adding medicine ${response.error}`);
       return;
@@ -90,7 +109,7 @@ const Listofmedicines = () => {
     setAddStockState(false);
     setUpdateStockState(false);
     setStock(1);
-  }
+  };
 
   // Updating the stock in the inventory
   const onUpdateStock = async (med, index) => {
@@ -99,12 +118,12 @@ const Listofmedicines = () => {
     setAddStockState(true);
     setUpdateStockState(true);
     setUpdateStockId(med._id);
-  }
+  };
 
   const resetStock = (e) => {
     e.preventDefault();
     setAddStockState(false);
-  }
+  };
 
   // Fetch medicines and groups on component load
   useEffect(() => {
@@ -120,8 +139,10 @@ const Listofmedicines = () => {
       }
       if (!inventoryItemsResponse.error) {
         setInventoryMedicines(inventoryItemsResponse.data);
+        console.log(inventoryMedicines);
       }
       setLoading(false);
+      
     };
     fetchResponse();
   }, []);
@@ -136,52 +157,23 @@ const Listofmedicines = () => {
     <div className="p-6 bg-gray-100 min-h-screen">
       {loading && <p>Loading...</p>}
       {/* STOCK ENTRY POPUP */}
-      {addStockState &&
-        <div className='absolute top-0 h-full left-0 w-full justify-center items-center flex flex-col mx-auto p-5 rounded-lg'>
-          <div className='bg-gray-200 py-8 px-32 rounded-md shadow'>
-            <div className='text-2xl font-bold pb-5'>Stock Update</div>
-            <form className='' onSubmit={updateStock} onReset={resetStock}>
-              <div className='mb-2'>
-                <span className='font-semibold'>Stock Name</span> - <span className=''>{medicines[stockIndex].name}</span>
-                <br />
-                <span className='font-semibold'>Available Stock</span>
-                <span className=''> - {inventoryMedicines[stockIndex] && inventoryMedicines[stockIndex].stock}
-                  {!inventoryMedicines[stockIndex] && 0}
-                </span>
-              </div>
-              <CustomInput
-                label="Add Stock Quantity"
-                onChange={(e) => {
-                  setStock(e.target.value);
-                }}
-                value={stock}
-                type="number"
-                min="1"
-              />
-              <div className='flex flex-row justify-between'>
-                <button className='bg-blue-500 text-sm text-white rounded-md mt-5 hover:bg-blue-600 p-3' type='submit'>
-                  Add Stock
-                </button>
-                <button className='bg-red-500 text-sm text-white rounded-md mt-5 hover:bg-red-600 p-3' type='reset'>
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      }
       {!loading && (
         <div className="max-w-5xl mx-auto bg-white p-5 rounded-lg shadow">
           {/* Header */}
           <header className="flex items-center justify-between mb-4">
             <div>
               <h1 className="text-2xl font-semibold text-gray-700">
-                Inventory &gt; <span className="text-2xl text-black font-bold">List of Medicines ({inventoryMedicines.length})</span>
+                Inventory &gt;{" "}
+                <span className="text-2xl text-black font-bold">
+                  List of Medicines ({inventoryMedicines.length})
+                </span>
               </h1>
               <h2>List of medicines available for inventory.</h2>
             </div>
-            <button onClick={() => navigator("update")}
-              className='bg-blue-600 px-8 py-2.5 rounded-sm font-semibold text-white'>
+            <button
+              onClick={() => navigator("update")}
+              className="bg-blue-600 px-8 py-2.5 rounded-sm font-semibold text-white"
+            >
               Add New Item
             </button>
           </header>
@@ -216,8 +208,10 @@ const Listofmedicines = () => {
             <table className="w-full border-collapse bg-white">
               <thead>
                 <tr className="bg-gray-100 text-left">
-                  <th className="p-3 border-2 border-gray-200">Medicine Name</th>
-                  <th className="p-3 border-2 border-gray-200">Medicine ID</th>
+                  <th className="p-3 border-2 border-gray-200">
+                    Medicine Name
+                  </th>
+                  <th className="p-3 border-2 border-gray-200">Batch No</th>
                   <th className="p-3 border-2 border-gray-200">Group Name</th>
                   <th className="p-3 border-2 border-gray-200">Stock in Qty</th>
                   <th className="p-3 border-2 border-gray-200">Actions</th>
@@ -226,14 +220,32 @@ const Listofmedicines = () => {
               <tbody>
                 {inventoryMedicines.length !== 0 &&
                   inventoryMedicines
-                    .filter((med) =>
-                      med.name.toLowerCase().includes(searchInventory.toLowerCase()) &&
-                      med.group.toLowerCase().includes(selectedGroupInventory.toLowerCase())
+                    .filter(
+                      (med) =>
+                        med.name
+                          .toLowerCase()
+                          .includes(searchInventory.toLowerCase()) &&
+                        med.group
+                          .toLowerCase()
+                          .includes(selectedGroupInventory.toLowerCase())
                     )
                     .map((medicine, index) => (
-                      <tr key={index} className={`cursor-pointer ${medicine.minimumCap && medicine.minimumCap > medicine.stock ? "bg-red-400 hover:bg-red-500" : "hover:bg-gray-50"}`} onDoubleClick={() => handleMedicineNavigate(medicine._id)}>
+                      <tr
+                        key={index}
+                        className={`cursor-pointer ${
+                          medicine.minimumCap &&
+                          medicine.minimumCap > medicine.stock
+                            ? "bg-red-400 hover:bg-red-500"
+                            : "hover:bg-gray-50"
+                        }`}
+                        onDoubleClick={() =>
+                          handleMedicineNavigate(medicine._id)
+                        }
+                      >
                         <td className="p-3 border m-auto">{medicine.name}</td>
-                        <td className="p-3 border m-auto">{medicine.id}</td>
+                        <td className="p-3 border m-auto">
+                          {medicine.batchNumber}
+                        </td>
                         <td className="p-3 border m-auto">{medicine.group}</td>
                         <td className="p-3 border m-auto">{medicine.stock}</td>
                         <td className="p-3 border flex flex-col items-center gap-2">
@@ -249,18 +261,20 @@ const Listofmedicines = () => {
               </tbody>
             </table>
 
-            {inventoryMedicines.filter((med) => med.name.toLowerCase().includes(searchInventory.toLowerCase())).length === 0 && (
+            {inventoryMedicines.filter((med) =>
+              med.name.toLowerCase().includes(searchInventory.toLowerCase())
+            ).length === 0 && (
               <div className="flex py-5 flex-row w-full justify-center items-center border-2 border-t-0">
                 <h2>Inventory is Empty</h2>
               </div>
             )}
           </div>
 
-
-
           {/* AVAILABLE MEDICINES IN THE DATABASE OF THE USER */}
           {/* Search and Filter */}
-          <h2 className='text-2xl font-semibold mb-2'>List of medicines available</h2>
+          <h2 className="text-2xl font-semibold mb-2">
+            List of medicines available
+          </h2>
           <div className="flex items-center justify-between mb-4">
             {/* Search Input */}
             <input
@@ -290,7 +304,7 @@ const Listofmedicines = () => {
             <thead>
               <tr className="bg-gray-100 text-left">
                 <th className="p-3 border-2 border-gray-200">Medicine Name</th>
-                <th className="p-3 border-2 border-gray-200">Medicine ID</th>
+                <th className="p-3 border-2 border-gray-200">Item Type</th>
                 <th className="p-3 border-2 border-gray-200">Group Name</th>
                 {/* <th className="p-3 border-2 border-gray-200">Stock in Qty</th> */}
                 <th className="p-3 border-2 border-gray-200">Actions</th>
@@ -299,14 +313,17 @@ const Listofmedicines = () => {
             <tbody>
               {medicines.length !== 0 &&
                 medicines
-                  .filter((med) =>
-                    med.name.toLowerCase().includes(search.toLowerCase()) &&
-                    med.group.toLowerCase().includes(selectedGroup.toLowerCase())
+                  .filter(
+                    (med) =>
+                      med.name.toLowerCase().includes(search.toLowerCase()) &&
+                      med.group
+                        .toLowerCase()
+                        .includes(selectedGroup.toLowerCase())
                   )
                   .map((medicine, index) => (
                     <tr key={index} className="hover:bg-gray-50">
                       <td className="p-3 border m-auto">{medicine.name}</td>
-                      <td className="p-3 border m-auto">{medicine.id}</td>
+                      <td className="p-3 border m-auto">{medicine.type}</td>
                       <td className="p-3 border m-auto">{medicine.group}</td>
                       {/* <td className="p-3 border m-auto">{medicine.stock}</td> */}
                       <td className="p-3 border m-auto flex gap-2">
@@ -314,7 +331,8 @@ const Listofmedicines = () => {
                           className="text-yellow-500 flex items-center gap-1"
                           onClick={() => addToInventory(index)}
                         >
-                          <FontAwesomeIcon icon={faPlusCircle} /> Add To Inventory
+                          <FontAwesomeIcon icon={faPlusCircle} /> Add To
+                          Inventory
                         </button>
                         {/* <button
                           className="text-red-500 flex items-center gap-1"
@@ -327,7 +345,9 @@ const Listofmedicines = () => {
                   ))}
             </tbody>
           </table>
-          {medicines.filter((med) => med.name.toLowerCase().includes(search.toLowerCase())).length === 0 && (
+          {medicines.filter((med) =>
+            med.name.toLowerCase().includes(search.toLowerCase())
+          ).length === 0 && (
             <div className="flex mt-5 flex-row w-full justify-center items-center">
               <h2>Nothing to Display</h2>
             </div>
