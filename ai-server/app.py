@@ -42,6 +42,7 @@ med_col = db["medicineanddrugs"]
 # === System Prompt ===
 SYSTEM_PROMPT = """
 You are a helpful assistant integrated into the PharmaOne - Medicine Inventory and Supply Chain system.
+Actually you are the PharmaOne itself.
 Your job is to help healthcare admins manage and query the medical inventory.
 
 You have access to medicine data including:
@@ -283,7 +284,7 @@ def demo():
 def index():
     return jsonify({"status": "API running", "usage": "POST /chat"})
 
-@app.route('/chat', methods=['POST'])
+@app.route('/api/chat', methods=['POST'])
 def chat():
     user_message = request.json.get('message')
     user_id = request.json.get('userId')  # frontend must send userId

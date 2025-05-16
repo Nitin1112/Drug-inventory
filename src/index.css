@@ -1,3 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom Scrollbar - Blue, 2px, No Arrows */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 2px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #3b82f6;
+    /* Tailwind blue-500 */
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-button {
+    display: none;
+    /* Removes the up/down arrows */
+}
+
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #3b82f6 transparent;
+    /* Firefox support */
+}
