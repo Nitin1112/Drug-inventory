@@ -26,6 +26,7 @@ server.config.js
 client.config.mjs
 .vscode
 pharmaone
+ai-server - Copy
 *.rar
 *.env
 *.pyc
