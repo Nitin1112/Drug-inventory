@@ -74,30 +74,15 @@ Follow these steps to set up and run the project:
    Ensure you have Node.js installed, then run:
     ```bash
     npm install
+    cd server
+    npm install
 
 3. **Run the Development Server**
    Start the Vite development server with:
    ```bash
    npm run dev
-
-4. **Build the Project for Production**
-   To generate a production build, use:
-   ```bash
-   npm run build
-
-5. **Preview the Production Build**
-   Test the production build locally with:
-   ```bash
-   npm run preview
-
-6. **Run the Back-end Server**
-   Start the node server with:
-   ```bash
-   cd server
-   npm run dev
-
-7. **Access the Application**
-   Open your browser and navigate to the development server URL displayed in your terminal (e.g., `http://localhost:3000`).
+   npm run server
+   npm run ai
 
 ## License
 This project is licensed under the [MIT License](LICENSE).
