@@ -76,13 +76,16 @@ Follow these steps to set up and run the project:
     npm install
     cd server
     npm install
+    ```
 
    Ensure you have Python installed, then run:
    create env
    ```bash
     cd ai-server
     python -m venv venv
-    
+   ```
+
+   Activate and install virtual env and install required dependencies:
    ```bash
     venv\Scripts\activate
     pip install -r requirements.txt
