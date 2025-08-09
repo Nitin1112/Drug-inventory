@@ -77,7 +77,18 @@ Follow these steps to set up and run the project:
     cd server
     npm install
 
-3. **Run the Development Server**
+   Ensure you have Python installed, then run:
+   create env
+   ```bash
+    cd ai-server
+    python -m venv venv
+    
+   ```bash
+    venv\Scripts\activate
+    pip install -r requirements.txt
+    
+
+4. **Run the Development Server**
    Start the Vite development server with:
    ```bash
    npm run dev
