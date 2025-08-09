@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "server": "nodemon server/server.js",
+    "ai": "py ai-server/app.py",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"

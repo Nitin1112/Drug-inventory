@@ -18,15 +18,20 @@ import UpdateStock from "./components/inventory/UpdateStock";
 import Notification from "./components/Notification/Notification";
 import SingleNotification from "./components/Notification/SingleNotification";
 import ChatbotAsPage from "./components/Chatbot/ChatbotAsPage";
+import SignIn from "./components/login/SignIn";
+import SignUp from "./components/login/SignUp";
 
 const App = () => {
   return (
     <div className="flex-grow p-0 bg-ice-blue">
       <BrowserRouter>
         <Routes>
+          {/* AUTHENTICATION */}
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/" element={<Sidebar />}>
             {/* Home Routes */}
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/" element={<Dashboard />} />
 
             {/* Inventory Routes */}
             <Route path="/inventory" element={<Listofmedicines />} />
