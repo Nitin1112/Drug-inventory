@@ -22,8 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-server.config.js
-client.config.mjs
+# server.config.js
+# client.config.mjs
 .vscode
 pharmaone
 ai-server - Copy

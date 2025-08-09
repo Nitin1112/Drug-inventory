@@ -2,7 +2,6 @@ import {
   BadgeHelp,
   Bell,
   BellDot,
-  Bolt,
   Bot,
   ChartBar,
   House,
@@ -12,7 +11,7 @@ import {
   Wrench,
 } from "lucide-react";
 import { Fragment, useEffect, useState } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { getUnreadNotificationCount } from "../controllers/notification.mjs";
 import Chatbot from "./Chatbot/Chatbot";
 
@@ -22,8 +21,16 @@ const Sidebar = () => {
   const [userData, setUserData] = useState({});
   const [notificationCount, setNotificationCount] = useState(0);
   const location = useLocation();
+  const navigator = useNavigate();
 
   useEffect(() => {
+    const userData = localStorage.getItem("userData")
+    if (userData == null) {
+      navigator("/signin");
+      return;
+    }
+    setUserData(JSON.parse(userData));
+
     const fetchData = async () => {
       const notificationResponse = await getUnreadNotificationCount();
       if (!notificationResponse.error) {
@@ -31,7 +38,6 @@ const Sidebar = () => {
       }
     };
     fetchData();
-    setUserData(JSON.parse(localStorage.getItem("userData")));
   }, []);
 
   // Helper to check if a path is active
@@ -59,10 +65,9 @@ const Sidebar = () => {
         {/* Navigation Links */}
         <nav className="flex-grow overflow-y-auto mt-4 space-y-2">
           <Link
-            to="/dashboard"
-            className={`flex items-center py-2 px-6 text-sm hover:bg-[#06b6d4] transition-colors duration-200 ${
-              isActive("/dashboard") ? "bg-[#06b6d4]" : ""
-            }`}
+            to="/"
+            className={`flex items-center py-2 px-6 text-sm hover:bg-[#06b6d4] transition-colors duration-200 ${isActive("/dashboard") ? "bg-[#06b6d4]" : ""
+              }`}
           >
             <span className="text-gray-400 mr-2">
               <House />
@@ -74,9 +79,8 @@ const Sidebar = () => {
           <Link
             to="/inventory"
             onClick={() => setInventoryOpen(!isInventoryOpen)}
-            className={`flex items-center justify-between w-full text-left py-2 px-6 text-sm hover:bg-[#06b6d4] transition-colors duration-200 ${
-              isActive("/inventory") ? "bg-[#06b6d4]" : ""
-            }`}
+            className={`flex items-center justify-between w-full text-left py-2 px-6 text-sm hover:bg-[#06b6d4] transition-colors duration-200 ${isActive("/inventory") ? "bg-[#06b6d4]" : ""
+              }`}
           >
             <span className="flex items-center">
               <span className="text-gray-400 mr-2">
@@ -90,17 +94,15 @@ const Sidebar = () => {
             <div className="pl-10">
               <Link
                 to="/inventory/medicines"
-                className={`block py-1 px-4 text-sm hover:bg-[#06b6d4] ${
-                  isActive("/inventory/medicines") ? "bg-[#06b6d4]" : ""
-                }`}
+                className={`block py-1 px-4 text-sm hover:bg-[#06b6d4] ${isActive("/inventory/medicines") ? "bg-[#06b6d4]" : ""
+                  }`}
               >
                 List of Medicines
               </Link>
               <Link
                 to="/inventory/groups"
-                className={`block py-1 px-4 text-sm hover:bg-[#06b6d4] ${
-                  isActive("/inventory/groups") ? "bg-[#06b6d4]" : ""
-                }`}
+                className={`block py-1 px-4 text-sm hover:bg-[#06b6d4] ${isActive("/inventory/groups") ? "bg-[#06b6d4]" : ""
+                  }`}
               >
                 Medicine Groups
               </Link>
@@ -109,9 +111,8 @@ const Sidebar = () => {
 
           <Link
             to="/receipts"
-            className={`flex items-center py-2 px-6 text-sm hover:bg-[#06b6d4] transition-colors duration-200 ${
-              isActive("/receipts") ? "bg-[#06b6d4]" : ""
-            }`}
+            className={`flex items-center py-2 px-6 text-sm hover:bg-[#06b6d4] transition-colors duration-200 ${isActive("/receipts") ? "bg-[#06b6d4]" : ""
+              }`}
           >
             <span className="text-gray-400 mr-2">
               <TicketCheck />
@@ -121,9 +122,8 @@ const Sidebar = () => {
 
           <Link
             to="/Reports"
-            className={`flex items-center py-2 px-6 text-sm hover:bg-[#06b6d4] transition-colors duration-200 ${
-              isActive("/Reports") ? "bg-[#06b6d4]" : ""
-            }`}
+            className={`flex items-center py-2 px-6 text-sm hover:bg-[#06b6d4] transition-colors duration-200 ${isActive("/Reports") ? "bg-[#06b6d4]" : ""
+              }`}
           >
             <span className="text-gray-400 mr-2">
               <ChartBar />
@@ -132,9 +132,8 @@ const Sidebar = () => {
           </Link>
           <Link
             to="/chat"
-            className={`flex items-center py-2 px-6 text-sm hover:bg-[#06b6d4] transition-colors duration-200 ${
-              isActive("/chat") ? "bg-[#06b6d4]" : ""
-            }`}
+            className={`flex items-center py-2 px-6 text-sm hover:bg-[#06b6d4] transition-colors duration-200 ${isActive("/chat") ? "bg-[#06b6d4]" : ""
+              }`}
           >
             <span className="text-gray-400 mr-2">
               <Bot />
@@ -145,14 +144,13 @@ const Sidebar = () => {
           {/* Contact Management Dropdown */}
           <button
             onClick={() => setContactOpen(!isContactOpen)}
-            className={`flex items-center justify-between w-full text-left py-2 px-6 text-sm hover:bg-[#06b6d4] transition-colors duration-200 ${
-              isActive([
-                "/contact-management/customers",
-                "/contact-management/suppliers",
-              ])
+            className={`flex items-center justify-between w-full text-left py-2 px-6 text-sm hover:bg-[#06b6d4] transition-colors duration-200 ${isActive([
+              "/contact-management/customers",
+              "/contact-management/suppliers",
+            ])
                 ? "bg-[#06b6d4]"
                 : ""
-            }`}
+              }`}
           >
             <span className="flex items-center">
               <span className="text-gray-400 mr-2">
@@ -166,21 +164,19 @@ const Sidebar = () => {
             <div className="pl-10">
               <Link
                 to="/contact-management/customers"
-                className={`block py-1 px-4 text-sm hover:bg-[#06b6d4] ${
-                  isActive("/contact-management/customers")
+                className={`block py-1 px-4 text-sm hover:bg-[#06b6d4] ${isActive("/contact-management/customers")
                     ? "bg-[#06b6d4]"
                     : ""
-                }`}
+                  }`}
               >
                 Customers
               </Link>
               <Link
                 to="/contact-management/suppliers"
-                className={`block py-1 px-4 text-sm hover:bg-[#06b6d4] ${
-                  isActive("/contact-management/suppliers")
+                className={`block py-1 px-4 text-sm hover:bg-[#06b6d4] ${isActive("/contact-management/suppliers")
                     ? "bg-[#06b6d4]"
                     : ""
-                }`}
+                  }`}
               >
                 Suppliers
               </Link>
@@ -189,9 +185,8 @@ const Sidebar = () => {
 
           <Link
             to="/notifications"
-            className={`flex items-center py-2 px-6 text-sm hover:bg-[#06b6d4] transition-colors duration-200 ${
-              isActive("/notifications") ? "bg-[#06b6d4]" : ""
-            }`}
+            className={`flex items-center py-2 px-6 text-sm hover:bg-[#06b6d4] transition-colors duration-200 ${isActive("/notifications") ? "bg-[#06b6d4]" : ""
+              }`}
           >
             <span className="text-gray-400 mr-2">
               {notificationCount ? <BellDot /> : <Bell />}
@@ -205,9 +200,8 @@ const Sidebar = () => {
           </Link>
           <Link
             to="/settings"
-            className={`flex items-center py-2 px-6 text-sm hover:bg-[#06b6d4] transition-colors duration-200 ${
-              isActive("/settings") ? "bg-[#06b6d4]" : ""
-            }`}
+            className={`flex items-center py-2 px-6 text-sm hover:bg-[#06b6d4] transition-colors duration-200 ${isActive("/settings") ? "bg-[#06b6d4]" : ""
+              }`}
           >
             <span className="text-gray-400 mr-2">
               <Wrench />
@@ -216,9 +210,8 @@ const Sidebar = () => {
           </Link>
           <Link
             to="/support"
-            className={`flex items-center py-2 px-6 text-sm hover:bg-[#06b6d4] transition-colors duration-200 ${
-              isActive("/support") ? "bg-[#06b6d4]" : ""
-            }`}
+            className={`flex items-center py-2 px-6 text-sm hover:bg-[#06b6d4] transition-colors duration-200 ${isActive("/support") ? "bg-[#06b6d4]" : ""
+              }`}
           >
             <span className="text-gray-400 mr-2">
               <BadgeHelp />
