@@ -20,6 +20,7 @@ import SingleNotification from "./components/Notification/SingleNotification";
 import ChatbotAsPage from "./components/Chatbot/ChatbotAsPage";
 import SignIn from "./components/login/SignIn";
 import SignUp from "./components/login/SignUp";
+import ModifyStock from "./components/inventory/ModifyStock";
 
 const App = () => {
   return (
@@ -45,6 +46,7 @@ const App = () => {
               element={<SingleMedicine />}
             />
             <Route path="/inventory/medicine/stock" element={<UpdateStock />} />
+            <Route path="/inventory/medicines/update/stock" element={<ModifyStock />} />
             <Route path="/inventory/groups" element={<Medicinegroup />} />
 
             <Route path="/reports" element={<h1>Reports</h1>} />

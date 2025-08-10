@@ -51,7 +51,7 @@ const Dashboard = () => {
               <img src={dashboardImage.good} className='m-auto' />
               <h2 className="text-lg font-bold text-green-800">Good</h2>
               <p className="text-sm text-gray-500">Inventory Status</p>
-              <a href='/Listofmedicines' className="mt-2 py-2 text-green-800 hover:underline bg-green-200 border-t-2 border-green-300 flex align-center justify-center w-full">
+              <a href='/inventory/medicines' className="mt-2 py-2 text-green-800 hover:underline bg-green-200 border-t-2 border-green-300 flex align-center justify-center w-full">
                 View Detailed Report &raquo;
               </a>
             </div>

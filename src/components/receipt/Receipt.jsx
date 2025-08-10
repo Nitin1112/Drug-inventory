@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getReceipts } from "../../controllers/receipt.mjs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import OverlayLoader from "../common/OverlayLoader";
 
 const Receipt = () => {
   const [todayInvoices, setTodayInvoices] = useState([]);
@@ -14,10 +15,12 @@ const Receipt = () => {
 
   useEffect(() => {
     const fetchTodayInvoices = async () => {
+      setLoading(true);
       try {
         const response = await getReceipts();
         if (response.error) {
           console.error("Error fetching today's invoices:", response.error);
+          setLoading(false);
           return;
         } else if (response.data.receipts.length === 0) {
           setTodayHasInvoices(false);
@@ -30,6 +33,7 @@ const Receipt = () => {
       } catch (error) {
         console.error("Error fetching today's invoices:", error);
       }
+      setLoading(false);
     };
 
     fetchTodayInvoices();
@@ -66,7 +70,6 @@ const Receipt = () => {
             value={searchInvoices}
             onChange={(e) => setSearchInvoices(e.target.value)}
           />
-
           <table className="w-full border-collapse bg-white">
             <thead>
               <tr className="bg-gray-100 text-left">
@@ -77,7 +80,8 @@ const Receipt = () => {
                 <th className="p-3 border-2 border-gray-200">Actions</th>
               </tr>
             </thead>
-            <tbody>
+            {loading && <OverlayLoader />}
+            {!loading && <tbody>
               {todayInvoices.length !== 0 &&
                 todayInvoices
                   .filter((med) =>
@@ -118,7 +122,7 @@ const Receipt = () => {
                       </td>
                     </tr>
                   ))}
-            </tbody>
+            </tbody>}
           </table>
 
           {todayInvoices.filter((med) =>

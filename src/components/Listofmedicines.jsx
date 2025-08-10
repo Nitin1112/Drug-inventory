@@ -17,6 +17,8 @@ import {
   inventoryUpdateStock,
 } from "../controllers/inventory.mjs";
 import CustomInput from "./common/CustomInput";
+import LoadingScreen from "./Loader";
+import OverlayLoader from "./common/OverlayLoader";
 
 const Listofmedicines = () => {
   // Common states
@@ -33,13 +35,6 @@ const Listofmedicines = () => {
   const [medicines, setMedicines] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState("");
 
-  // add stock popup state
-  const [addStockState, setAddStockState] = useState(false);
-  const [stock, setStock] = useState(1);
-  const [stockBatchNumber, setStockBatchNumber] = useState("");
-  const [stockIndex, setStockIndex] = useState(0);
-  const [updateStockState, setUpdateStockState] = useState(false);
-  const [updateStockId, setUpdateStockId] = useState(false);
 
   const navigator = useNavigate();
 
@@ -47,8 +42,6 @@ const Listofmedicines = () => {
   const addToInventory = async (index) => {
     console.log(medicines[index]);
     navigator("/inventory/medicine/stock", { state: medicines[index] });
-    setAddStockState(true);
-    setStockIndex(index);
   };
 
   // For navigating to the detailed medicine view
@@ -74,7 +67,6 @@ const Listofmedicines = () => {
             return priInventoryData;
           });
           setUpdateStockState(false);
-          setAddStockState(false);
           alert("Stock updated successfully");
           return;
         }
@@ -106,7 +98,6 @@ const Listofmedicines = () => {
       return;
     }
 
-    setAddStockState(false);
     setUpdateStockState(false);
     setStock(1);
   };
@@ -115,14 +106,12 @@ const Listofmedicines = () => {
   const onUpdateStock = async (med, index) => {
     console.log(med);
     console.log(index);
-    setAddStockState(true);
-    setUpdateStockState(true);
-    setUpdateStockId(med._id);
+    console.log(med._id);
+    navigator("update/stock", { state: { name: inventoryMedicines[index], ...med } })
   };
 
   const resetStock = (e) => {
     e.preventDefault();
-    setAddStockState(false);
   };
 
   // Fetch medicines and groups on component load
@@ -142,7 +131,7 @@ const Listofmedicines = () => {
         console.log(inventoryMedicines);
       }
       setLoading(false);
-      
+
     };
     fetchResponse();
   }, []);
@@ -155,7 +144,7 @@ const Listofmedicines = () => {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      {loading && <p>Loading...</p>}
+      {loading && <OverlayLoader />}
       {/* STOCK ENTRY POPUP */}
       {!loading && (
         <div className="max-w-5xl mx-auto bg-white p-5 rounded-lg shadow">
@@ -232,12 +221,11 @@ const Listofmedicines = () => {
                     .map((medicine, index) => (
                       <tr
                         key={index}
-                        className={`cursor-pointer ${
-                          medicine.minimumCap &&
+                        className={`cursor-pointer ${medicine.minimumCap &&
                           medicine.minimumCap > medicine.stock
-                            ? "bg-red-400 hover:bg-red-500"
-                            : "hover:bg-gray-50"
-                        }`}
+                          ? "bg-red-400 hover:bg-red-500"
+                          : "hover:bg-gray-50"
+                          }`}
                         onDoubleClick={() =>
                           handleMedicineNavigate(medicine._id)
                         }
@@ -264,10 +252,10 @@ const Listofmedicines = () => {
             {inventoryMedicines.filter((med) =>
               med.name.toLowerCase().includes(searchInventory.toLowerCase())
             ).length === 0 && (
-              <div className="flex py-5 flex-row w-full justify-center items-center border-2 border-t-0">
-                <h2>Inventory is Empty</h2>
-              </div>
-            )}
+                <div className="flex py-5 flex-row w-full justify-center items-center border-2 border-t-0">
+                  <h2>Inventory is Empty</h2>
+                </div>
+              )}
           </div>
 
           {/* AVAILABLE MEDICINES IN THE DATABASE OF THE USER */}
@@ -348,10 +336,10 @@ const Listofmedicines = () => {
           {medicines.filter((med) =>
             med.name.toLowerCase().includes(search.toLowerCase())
           ).length === 0 && (
-            <div className="flex mt-5 flex-row w-full justify-center items-center">
-              <h2>Nothing to Display</h2>
-            </div>
-          )}
+              <div className="flex mt-5 flex-row w-full justify-center items-center">
+                <h2>Nothing to Display</h2>
+              </div>
+            )}
         </div>
       )}
     </div>

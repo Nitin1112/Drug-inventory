@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { getAllNotification } from "../../controllers/notification.mjs";
 import { useNavigate } from "react-router-dom";
+import OverlayLoader from "../common/OverlayLoader";
 
 // const notifications = [
 //   {
@@ -68,32 +69,35 @@ const Notification = () => {
   };
 
   return (
-    !loading && (
-      <div className="w-full  rounded-lg shadow-lg bg-white">
-        <div className="flex items-center justify-between px-6 py-4 border-b">
-          <h2 className="text-lg font-semibold">Notifications</h2>
-          {getUnreadNotificationCount() != 0 && (
-            <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-blue-600 text-white text-sm font-bold">
-              {getUnreadNotificationCount()}
-            </span>
-          )}
-        </div>
-        <ul className="divide-y">
-          {notifications.map((note) => (
-            <li
-              key={note._id}
-              onClick={() => handleDoubleClick(note)}
-              className={`cursor-pointer flex flex-col gap-1 px-6 py-4 border-l-4 
+    <>
+      {loading && <OverlayLoader />}
+      {!loading && (
+        <div className="w-full  rounded-lg shadow-lg bg-white">
+          <div className="flex items-center justify-between px-6 py-4 border-b">
+            <h2 className="text-lg font-semibold">Notifications</h2>
+            {getUnreadNotificationCount() != 0 && (
+              <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-blue-600 text-white text-sm font-bold">
+                {getUnreadNotificationCount()}
+              </span>
+            )}
+          </div>
+          <ul className="divide-y">
+            {notifications.map((note) => (
+              <li
+                key={note._id}
+                onClick={() => handleDoubleClick(note)}
+                className={`cursor-pointer flex flex-col gap-1 px-6 py-4 border-l-4 
               ${typeStyles[note.type]}`}
-            >
-              <div className="font-medium">{note.title}</div>
-              <div className="text-sm">{note.message}</div>
-              <div className="text-xs text-gray-500">{note.time}</div>
-            </li>
-          ))}
-        </ul>
-      </div>
-    )
+              >
+                <div className="font-medium">{note.title}</div>
+                <div className="text-sm">{note.message}</div>
+                <div className="text-xs text-gray-500">{note.time}</div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </>
   );
 };
 

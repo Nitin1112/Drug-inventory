@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import CustomInput from "../common/CustomInput";
 import { addMedicineToInventory } from "../../controllers/inventory.mjs";
+import OverlayLoader from "../common/OverlayLoader";
 
 const UpdateStock = () => {
   const navigator = useNavigate();
@@ -52,7 +53,7 @@ const UpdateStock = () => {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      {loading && <p>Loading...</p>}
+      {loading && <OverlayLoader />}
       {/* STOCK ENTRY POPUP */}
       {!loading && (
         <div className="max-w-5xl mx-auto bg-white p-5 rounded-lg shadow">
@@ -99,7 +100,7 @@ const UpdateStock = () => {
                 name="expiryDate"
                 value={stockData.expiryDate}
                 label="Expiry Date (YYYY-MM-DD)"
-                type="text"
+                type="date"
                 placeholder="Enter expiry date"
                 required
               />

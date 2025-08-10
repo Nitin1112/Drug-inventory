@@ -3,6 +3,7 @@ import { AlertTriangle, CheckCircle, XCircle, MoveLeft } from "lucide-react";
 import { useEffect, useState } from "react";
 import { readNotification } from "../../controllers/notification.mjs";
 import { MoveLeftIcon } from "lucide-react";
+import OverlayLoader from "../common/OverlayLoader";
 
 const typeStyles = {
   warning: {
@@ -103,8 +104,9 @@ const SingleNotification = () => {
   const type = typeStyles[notification.type] || typeStyles.warning;
 
   //   return loading && <div>Loading...</div>
-  return (
-    !loading && (
+  return <>
+  {loading && <OverlayLoader />}
+  {!loading && (
       <div className="w-full mx-auto">
         <div
           className={`rounded-xl shadow-md border-l-8 p-6 ${type.className}`}
@@ -154,8 +156,8 @@ const SingleNotification = () => {
           {renderExpiringItems(notification.expiringItems)}
         </div>
       </div>
-    )
-  );
+    )}
+    </>;
 };
 
 export default SingleNotification;

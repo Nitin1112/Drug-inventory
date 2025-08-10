@@ -6,6 +6,23 @@ import { gst_verification_template } from "../templates/gstVerification.template
 import { account_under_verification_template } from "../templates/accountUnderVerification.template.mjs";
 import Inventory from "../models/inventory.model.mjs";
 
+
+export const getUserData = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        
+        const userData = await User.findById(userId);
+
+        if (userData) {
+            return res.status(200).json({ user: userData });
+        }
+        return res.status(404).json({ error: "User not found" });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Internal Server Error.", message: error.messge });
+    }
+}
+
 export const registerUser = async (req, res) => {
     try {
         const { name, email, role, gstNumber } = req.body;

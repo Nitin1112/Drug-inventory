@@ -11,6 +11,7 @@ import {
     getTotalMedicines,
     getAvailableMedicineGroups,
     getInventoryItems,
+    getInventoryMedicineById,
 } from "../controller/inventory.controller.mjs"
 
 const inventoryRouter = express.Router();
@@ -26,8 +27,11 @@ inventoryRouter.get("/items/:userId", getInventoryItems);
 // Fetch a specific inventory item by ID
 inventoryRouter.get("/:id", getInventoryItemById);
 
+// Get data of specific of inventory medicine by using id
+inventoryRouter.post("/medicine/:userId", getInventoryMedicineById);
+
 // Update quantity or batch details of a specific inventory item
-inventoryRouter.put("/update/medicine", updateInventoryItem);
+inventoryRouter.put("/update/medicine/stock/:userId", updateInventoryItem);
 
 // Remove an item from the inventory
 inventoryRouter.delete("/:id", deleteInventoryItem);

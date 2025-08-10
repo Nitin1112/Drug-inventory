@@ -1,5 +1,6 @@
 import axios from "axios";
 import { client_config } from "../../client.config.mjs";
+import { useNavigate } from "react-router-dom";
 
 export const addMedicineToInventory = async (medicineData) => {
   try {
@@ -23,17 +24,12 @@ export const addMedicineToInventory = async (medicineData) => {
   }
 };
 
-export const inventoryUpdateStock = async (medicineId, stock, batchNumber) => {
+export const inventoryUpdateStock = async (updatedMedicine) => {
   try {
     const userId = localStorage.getItem("userId");
-    const updateData = {
-      stock: stock,
-      batchNumber: batchNumber,
-      medicineId: medicineId,
-    };
     const response = await axios.put(
-      `${client_config.backend_url}/api/inventory/update/stock/${userId}`,
-      updateData
+      `${client_config.backend_url}/api/inventory/update/medicine/stock/${userId}`,
+      updatedMedicine
     );
 
     if (response.data.error) {
@@ -45,6 +41,42 @@ export const inventoryUpdateStock = async (medicineId, stock, batchNumber) => {
     return { error: error.message };
   }
 };
+
+export const updateStockOfItem = async (medicineData) => {
+  try {
+    // const 
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+export const fetchInventoryStockItemById = async (medId, batchNumber) => {
+  try {
+
+    const userId = localStorage.getItem("userId");
+    const medData = {
+      medId: medId,
+      batchNumber: batchNumber,
+    }
+    if (userId == null) {
+      return;
+    }
+
+    console.log(medData);
+    
+    const response = await axios.post(`${client_config.backend_url}/api/inventory/medicine/${userId}`,
+      medData
+    );
+
+    if (response.data.error) {
+      return { error: response.data.error };
+    }
+
+    return { data: response.data };
+  } catch (error) {
+    return { error: error.message };
+  }
+}
 
 export const fetchInventoryItems = async () => {
   try {

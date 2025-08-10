@@ -7,6 +7,7 @@
     "dev": "vite",
     "server": "nodemon server/server.js",
     "ai": "py ai-server/app.py",
+    "ai-mac": "python3 ai-server/app.py",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -19,6 +20,7 @@
     "lucide-react": "^0.462.0",
     "mongoose": "^8.8.2",
     "node-cron": "^4.0.5",
+    "nodemon": "^3.1.10",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-fontawesome": "^1.7.1",

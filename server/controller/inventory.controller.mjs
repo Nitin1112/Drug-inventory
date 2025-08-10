@@ -19,6 +19,9 @@ export const addInventoryItem = async (req, res) => {
     if (!data.stock) {
       return res.status(200).json({ error: "Required number of stocks" });
     }
+    if (!data.expiryDate) {
+      return res.status(200).json({ error: "Required expiry date" });
+    }
     if (!data.batchNumber) {
       return res.status(200).json({ error: "Required batch number" });
     }
@@ -59,7 +62,7 @@ export const addInventoryItem = async (req, res) => {
         batchNumber: data.batchNumber,
         manufacturer: data.manufacturer,
         price: data.price,
-        expiryDate: data.expiryDate,
+        expiryDate: data.expiryDate ? data.expiryDate.split('T')[0] : '',
       };
       inventory.items.push(newItem);
       await inventory.save();
@@ -147,12 +150,16 @@ export const getInventoryItemById = async (req, res) => {
   }
 };
 
-// Update quantity or batch details of a specific inventory item
-export const updateInventoryItem = async (req, res) => {
+export const getInventoryMedicineById = async (req, res) => {
   try {
-    const updateMedicineData = req.body;
+    const { userId } = req.params;
+    const { medId, batchNumber } = req.body
+    console.log(req.params);
+    console.log(req.body);
+
+
     const inventory = await Inventory.findOne({
-      owner: updateMedicineData.userId,
+      owner: userId,
     });
     if (!inventory) {
       return res.status(200).json({ error: "Inventory not found" });
@@ -160,12 +167,53 @@ export const updateInventoryItem = async (req, res) => {
 
     let medicine;
     for (const item of inventory.medicines) {
-      if (item.medicineOrDrug.toString() === updateMedicineData.medicineId) {
+      if (item.medicineOrDrug.toString() === medId) {
         medicine = item;
       }
     }
     for (const item of inventory.items) {
-      if (item.medicineOrDrug.toString() === updateMedicineData.medicineId) {
+      if (item.medicineOrDrug.toString() === medId) {
+        if (item.batchNumber === batchNumber) {
+          if (medicine) {
+            console.log(item.expiryDate);
+
+            return res.status(200).json(item);
+          }
+        }
+      }
+    }
+
+    return res.status(404).json({ error: "Medicine not found" });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      error: "Failed to get inventory item",
+      details: error.message,
+    });
+  }
+}
+
+// Update quantity or batch details of a specific inventory item
+export const updateInventoryItem = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const updateMedicineData = req.body;
+    const inventory = await Inventory.findOne({
+      owner: userId,
+    });
+    if (!inventory) {
+      return res.status(200).json({ error: "Inventory not found" });
+    }
+
+    let medicine;
+    for (const item of inventory.medicines) {
+      if (item.medicineOrDrug.toString() === updateMedicineData.id) {
+        medicine = item;
+      }
+    }
+    for (const item of inventory.items) {
+      if (item.medicineOrDrug.toString() === updateMedicineData.id) {
         if (item.batchNumber === updateMedicineData.batchNumber) {
           if (medicine) {
             console.log("item.stock", item.stock);
@@ -173,7 +221,11 @@ export const updateInventoryItem = async (req, res) => {
             medicine.lifetimeSupply =
               medicine.lifetimeSupply - item.stock + updateMedicineData.stock;
           }
-          item.stock = updateMedicineData.stock;
+          item.stock = updateMedicineData.stock ? updateMedicineData.stock : item.stock;
+          item.expiryDate = updateMedicineData.expiryDate ? updateMedicineData.expiryDate : item.expiryDate;
+          item.manufacturer = updateMedicineData.manufacturer ? updateMedicineData.manufacturer : item.manufacturer;
+          item.price = updateMedicineData.price ? updateMedicineData.price : item.price;
+
           await inventory.save();
           return res.status(200).json({
             message: "Inventory item updated successfully",
@@ -185,6 +237,8 @@ export const updateInventoryItem = async (req, res) => {
     }
     return res.status(404).json({ error: "Item not found" });
   } catch (error) {
+    console.log(error);
+
     res.status(500).json({
       error: "Failed to update inventory item",
       details: error.message,

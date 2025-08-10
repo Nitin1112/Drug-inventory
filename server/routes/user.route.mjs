@@ -1,5 +1,5 @@
 import express from "express";
-import { registerUser, loginUser, resetPassword } from "../controller/userreg.controller.mjs";
+import { registerUser, loginUser, resetPassword, getUserData } from "../controller/userreg.controller.mjs";
 
 const userRouter = express.Router();
 
@@ -7,5 +7,6 @@ const userRouter = express.Router();
 userRouter.post("/register", registerUser);
 userRouter.post("/login", loginUser);
 userRouter.post("/reset-password", resetPassword);
+userRouter.get("/:userId", getUserData);
 
 export default userRouter;

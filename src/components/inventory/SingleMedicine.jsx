@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchMedicineDataById } from "../../controllers/medicines.mjs";
 import { useNavigate, useParams } from "react-router-dom";
+import OverlayLoader from "../common/OverlayLoader";
 
 const SingleMedicine = () => {
     const [loading, setLoading] = useState(false);
@@ -27,6 +28,7 @@ const SingleMedicine = () => {
 
 
     return <div className="p-6 min-h-screen">
+        {loading && <OverlayLoader />}
         {!loading && (
             <div className="max-w-5xl mx-auto p-5 rounded-lg">
                 {/* Header */}

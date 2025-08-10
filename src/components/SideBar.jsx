@@ -14,6 +14,7 @@ import { Fragment, useEffect, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { getUnreadNotificationCount } from "../controllers/notification.mjs";
 import Chatbot from "./Chatbot/Chatbot";
+import { fetchAndSetUser } from "../controllers/user.mjs";
 
 const Sidebar = () => {
   const [isInventoryOpen, setInventoryOpen] = useState(false);
@@ -24,12 +25,22 @@ const Sidebar = () => {
   const navigator = useNavigate();
 
   useEffect(() => {
-    const userData = localStorage.getItem("userData")
-    if (userData == null) {
-      navigator("/signin");
-      return;
+    const fetchUser = async () => {
+      const response = await fetchAndSetUser();
+      if (response.error) {
+        alert(response.error);
+        navigator("/signin");
+        return;
+      } else {
+        const userData = localStorage.getItem("userData")
+        if (userData == null) {
+          navigator("/signin");
+          return;
+        }
+        setUserData(JSON.parse(userData));
+      }
     }
-    setUserData(JSON.parse(userData));
+    fetchUser();
 
     const fetchData = async () => {
       const notificationResponse = await getUnreadNotificationCount();
@@ -77,7 +88,7 @@ const Sidebar = () => {
 
           {/* Inventory Dropdown */}
           <Link
-            to="/inventory"
+            to="/inventory/medicines"
             onClick={() => setInventoryOpen(!isInventoryOpen)}
             className={`flex items-center justify-between w-full text-left py-2 px-6 text-sm hover:bg-[#06b6d4] transition-colors duration-200 ${isActive("/inventory") ? "bg-[#06b6d4]" : ""
               }`}
